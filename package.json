@@ -1,5 +1,10 @@
 {
   "name": "presm",
   "version": "0.0.0",
-  "description": "Pre-processing for ES modules in node"
+  "description": "Pre-processing for ES modules in node",
+  "devDependencies": {
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.5",
+    "yargs": "^15.3.1"
+  }
 }
