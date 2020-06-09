@@ -1,9 +1,10 @@
 import { createRequire } from 'module';
 const loadViaRequire = createRequire(import.meta.url);
 
-import test from 'tape';
+// import test from 'tape';
+const test = loadViaRequire('tape');
 
-import { calc } from './calc.js';
+import { calc } from './calc.ts';
 
 const { argv } = loadViaRequire('yargs').config({});
 

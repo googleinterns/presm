@@ -1,4 +1,4 @@
-import { ops_list, ops_symbols_list, argvType } from './ops.js';
+import { ops_list, ops_symbols_list, argvType } from './ops.ts';
 
 export function calc(argv: argvType): string {
   let chosen_op_string = '';

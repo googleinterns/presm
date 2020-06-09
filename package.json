@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "description": "Pre-processing for ES modules in node",
   "devDependencies": {
+    "@k-foss/ts-esnode": "^1.6.0",
     "@types/node": "^14.0.12",
     "@types/tape": "^4.13.0",
     "@types/yargs": "^15.0.5",
@@ -28,6 +29,7 @@
     "fix": "gts fix",
     "prepare": "npm run compile",
     "pretest": "npm run compile",
-    "posttest": "npm run check"
+    "posttest": "npm run check",
+    "dev": "node --experimental-loader @k-foss/ts-esnode --experimental-specifier-resolution=node ./src/tests.ts"
   }
 }
