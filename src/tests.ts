@@ -1,7 +1,7 @@
 import { createRequire } from 'module';
 const loadViaRequire = createRequire(import.meta.url);
 
-const test = loadViaRequire('tape');
+import test from 'tape';
 
 import { calc } from './calc.js';
 

@@ -3,7 +3,8 @@
   "compilerOptions": {
     "rootDir": ".",
     "outDir": "build",
-    "module": "esnext"
+    "module": "esnext",
+    "allowSyntheticDefaultImports": true
   },
   "include": [
     "src/**/*.ts",
