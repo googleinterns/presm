@@ -6,7 +6,9 @@ This is an initial exploration of different use cases for loader hooks in node.
 
 # Calculator Test App
 
-Currently using JavaScript.  Typecript coming soon!
+Currently using TypeScript!
+
+NOTE: `npm run check` (aka gts (Google TS) check) currently fails with 3 errors.
 
 ## Install Deps
 
