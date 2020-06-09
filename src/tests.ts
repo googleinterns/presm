@@ -1,11 +1,11 @@
 import { createRequire } from 'module';
-const require = createRequire(import.meta.url);
+const loadViaRequire = createRequire(import.meta.url);
 
-const test = require('tape');
+const test = loadViaRequire('tape');
 
 import { calc } from './calc.js';
 
-const { argv } = require('yargs').config({});
+const { argv } = loadViaRequire('yargs').config({});
 
 function modifyTestArgv(op: string, a: number, b: number) {
   delete argv.add;

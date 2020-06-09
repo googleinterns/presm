@@ -1,7 +1,7 @@
 import { createRequire } from 'module';
-const require = createRequire(import.meta.url);
+const loadViaRequire = createRequire(import.meta.url);
 
-const { argv } = require('yargs')
+const { argv } = loadViaRequire('yargs')
   .alias('a', 'add')
   .array('a')
   .alias('s', 'sub')
