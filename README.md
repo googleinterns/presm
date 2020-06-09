@@ -22,13 +22,17 @@ NOTE: `npm run check` (aka gts (Google TS) check) currently fails with 3 errors.
  - `--mult` or `-m`
  - `--div` or `-d`
 
+### Compiling
+
+`npm run compile`
+
 ### Examples
 
-`node src/calc_runner.js -a 5 10`
+`node build/src/calc_runner.js -a 5 10`
 
     add 5+10 = 15
 
-`node src/calc_runner.js --div 5 10`
+`node build/src/calc_runner.js --div 5 10`
 
     div 5/10 = 0.5
 
@@ -36,7 +40,7 @@ NOTE: `npm run check` (aka gts (Google TS) check) currently fails with 3 errors.
 
 Unit tests are run using [Tape](https://github.com/substack/tape)
 
-`node src/tests.js`
+`node build/src/tests.js`
 
     TAP version 13
     # add test
