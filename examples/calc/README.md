@@ -35,6 +35,10 @@
    * JavaScript postprocessors (babel in this case)
      -> { source: ....'2, contentType: 'text/javascript' }
      -> OR rewrite specifiers here (?)
+    #### Tentative Resolution Mapping: Indexing
+    * Presm builds up an index of potential transpiled paths to disk paths
+    * Therefore `foo.ts.mjs` can be mapped back to `foo.ts` and transpilation can start from that file
+    * [See example](#resolution-indexing-example)
 5. It passes control to node.js with the final contents.
      -> { format: 'module', source: ....'2 }
 6. Node.js sees `import ./calc.mjs` in the generated code.
@@ -92,42 +96,46 @@ import('./foo/' + locale + '.json').then(dynNS => {
 // kind of globbing magic that tools like rollup/webpack do.
 ```
 
-#### Resolution Index
+#### Resolution Indexing Example
 
+Example Filesystem:
+```stout
 /src
   /calc.ts
-  /calc.yaml
+  /res
+    /calc.yaml
+```
 
+Example resourceProviders in [Project Config](#project-configuration) 
+```js
 resourceProviders:
-  fs:src
-contentTransforms:
-  typescript->javascript:tsc
-  yaml->json:js-yaml
+  { "type": "@presm/file", "base": "./src" },
+  // This would "own" all files in src/ directory
+  // and therefore build an index for all files and subdirectories in this directory
+```
 
-fs:src -> globs src
-  /calc.ts [.ts -> typescript]
-  /calc.yaml [.yaml -> YAML]
+Example preProcessors in [Project Config](#project-configuration)
+```js
+  "preProcessors": [
+    "@presm/typescript", // transforms .ts -> [.mjs | .cjs]
+    "@presm/yaml", // transforms .yaml -> [.json | .mjs]
+  ],
+```
+Therefore `presm` would build the following many to one mapping of:
 
-tsc -> predicts final content type
-  typescript ----> {mjs,cjs}
-  /calc.ts [-> {mjs,cjs}]
+transpiled resource &rarr; project file in disk
 
-js-yaml -> ...
-  yaml ----> json
-  /calc.yaml [-> {json,mjs}]
-
-build index (including nested directories):
-  /dist/{calc.ts id}.mjs -> /src/api/calc.ts
-  /dist/{calc.yaml id}.json -> /src/api/calc.yaml
-  /dist/api/calc.mjs -> /src/api/calc.ts
-  /dist/api/calc$1.mjs -> src/api/calc.yaml
-  /dist/api/calc.cjs -> /src/api/calc.ts
-  /dist/api/calc.json -> src/api/calc.yaml
-
+```
+index (including nested directories):
+  /dist/src/calc.ts.mjs -> /src/calc.ts
+  /dist/src/calc.ts.cjs -> /src/calc.ts
+  /dist/src/res/calc.yaml.json -> /src/res/calc.yaml
+  /dist/src/res/calc.yaml.mjs -> /src/res/calc.yaml
+```
 ### Start the Source Path with Loader
 
 1. We run `node --loader=presm ./src/calc_runner.ts`.
-2. The presm hook loads the project configuration[1].
+2. The presm hook loads the [project configuration](#project-configuration)
 3. The loader resolves to the equivalent dist path
    (`file://///dist/calc_runner.mjs`).
 4. Everything else is as above.
