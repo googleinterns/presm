@@ -92,6 +92,38 @@ import('./foo/' + locale + '.json').then(dynNS => {
 // kind of globbing magic that tools like rollup/webpack do.
 ```
 
+#### Resolution Index
+
+/src
+  /calc.ts
+  /calc.yaml
+
+resourceProviders:
+  fs:src
+contentTransforms:
+  typescript->javascript:tsc
+  yaml->json:js-yaml
+
+fs:src -> globs src
+  /calc.ts [.ts -> typescript]
+  /calc.yaml [.yaml -> YAML]
+
+tsc -> predicts final content type
+  typescript ----> {mjs,cjs}
+  /calc.ts [-> {mjs,cjs}]
+
+js-yaml -> ...
+  yaml ----> json
+  /calc.yaml [-> {json,mjs}]
+
+build index (including nested directories):
+  /dist/{calc.ts id}.mjs -> /src/api/calc.ts
+  /dist/{calc.yaml id}.json -> /src/api/calc.yaml
+  /dist/api/calc.mjs -> /src/api/calc.ts
+  /dist/api/calc$1.mjs -> src/api/calc.yaml
+  /dist/api/calc.cjs -> /src/api/calc.ts
+  /dist/api/calc.json -> src/api/calc.yaml
+
 ### Start the Source Path with Loader
 
 1. We run `node --loader=presm ./src/calc_runner.ts`.
