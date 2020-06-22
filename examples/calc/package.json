@@ -1,12 +1,35 @@
 {
-  "name": "presm-example-calc",
+  "name": "presm",
   "version": "0.0.0",
-  "cli": "./dist/calc_runner.mjs",
-  "exports": {
-    ".": "./dist/calc.mjs"
+  "description": "Pre-processing for ES modules in node",
+  "devDependencies": {
+    "@k-foss/ts-esnode": "^1.6.0",
+    "@types/node": "^14.0.12",
+    "@types/tape": "^4.13.0",
+    "@types/yargs": "^15.0.5",
+    "@typescript-eslint/eslint-plugin": "^3.2.0",
+    "@typescript-eslint/parser": "^3.2.0",
+    "eslint": "^7.2.0",
+    "gts": "^2.0.2",
+    "tape": "^5.0.1",
+    "ts-node": "^8.10.2",
+    "typescript": "^3.9.5",
+    "yargs": "^15.3.1"
+  },
+  "type": "module",
+  "engines": {
+    "node": ">=12.2.0"
   },
   "scripts": {
-    "build": "presm --pack .",
-    "dev": "node --loader=presm ./dist/calc_runner.mjs"
+    "lint": "eslint . --ext .ts",
+    "lint-fix": "eslint . --ext .ts --fix",
+    "check": "gts check",
+    "clean": "gts clean",
+    "compile": "tsc",
+    "fix": "gts fix",
+    "prepare": "npm run compile",
+    "pretest": "npm run compile",
+    "posttest": "npm run check",
+    "dev": "node --experimental-loader @k-foss/ts-esnode --experimental-specifier-resolution=node ./src/tests.ts"
   }
 }

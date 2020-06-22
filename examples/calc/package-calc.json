@@ -1,0 +1,12 @@
+{
+  "name": "presm-example-calc",
+  "version": "0.0.0",
+  "cli": "./dist/calc_runner.mjs",
+  "exports": {
+    ".": "./dist/calc.mjs"
+  },
+  "scripts": {
+    "build": "presm --pack .",
+    "dev": "node --loader=presm ./dist/calc_runner.mjs"
+  }
+}
