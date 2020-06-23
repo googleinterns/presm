@@ -21,11 +21,12 @@
   - NOTE: I believe `source` should be of type (`Buffer` | `string`) but am not certain
   - [Example `preProcessor` template](https://github.com/googleinterns/presm/blob/api-preProcessors/api/preProcessor-template.js)
 
-- Return converted source file(s) complete with a valid extension of outputExtensionTypes
+- Return converted source file(s) either:
+  - In the form of a `string` or `buffer` that `node` will be able to run
+  - As a saved file complete with a valid extension of `outputExtensionTypes`
 
 - Behavior Note: I do not believe a preProcessor should be filtering files based on these extensions, I believe that to be the responsibility of the caller for this loader
 
-- NOTE: 
 ### Requirements of including and configuring a preProcessor - in project config:
 - Specify loader name
 - Specify options (optional)

@@ -11,7 +11,9 @@ export interface TypeScriptOptions {
 }
 
 export function process(source: string | Buffer, options: TypeScriptOptions = {}): string| Buffer {
+
+  // Example of returning a transpiled source using options provided by project config
   return {
-          source: thing.transpileSource(source)
+          source: thing.transpileSource(source, options)
         }
 }
