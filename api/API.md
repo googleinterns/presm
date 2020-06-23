@@ -18,7 +18,7 @@
   - For a TypeScript preProcessor, a default might be to use the project's existing tsconfig.json
 
 - Expect `source` as a param coming from a valid `resourceProvider` OR *IMPORTANT* from another chained `prePrecessor`
-  - NOTE: I believe `source` should be of type `Buffer` but am not certain
+  - NOTE: I believe `source` should be of type (`Buffer` | `string`) but am not certain
   - [Example `preProcessor` template](https://github.com/googleinterns/presm/blob/api-preProcessors/api/preProcessor-template.js)
 
 - Return converted source file(s) complete with a valid extension of outputExtensionTypes
