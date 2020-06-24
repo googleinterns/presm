@@ -18,11 +18,12 @@
   - For a TypeScript preProcessor, a default might be to use the project's existing tsconfig.json
 
 - Expect `source` as a param coming from a valid `resourceProvider` OR *IMPORTANT* from another chained `prePrecessor`
-  - NOTE: I believe `source` should be of type (`Buffer` | `string`) but am not certain
+  - NOTE: I believe `source` should be of type `string`
+    - [Reasoning for this](https://github.com/googleinterns/presm/pull/3#pullrequestreview-436898909)
   - [Example `preProcessor` template](https://github.com/googleinterns/presm/blob/api-preProcessors/api/preProcessor-template.js)
 
 - Return converted source file(s) either:
-  - In the form of a `string` or `buffer` that `node` will be able to run
+  - In the form of a `string` that `node` will be able to run
   - As a saved file complete with a valid extension of `outputExtensionTypes`
 
 - Behavior Note: I do not believe a preProcessor should be filtering files based on these extensions, I believe that to be the responsibility of the caller for this loader

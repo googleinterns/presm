@@ -10,7 +10,7 @@ export interface TypeScriptOptions {
   tsconfigFile?: string
 }
 
-export function process(source: string | Buffer, options: TypeScriptOptions = {}): string| Buffer {
+export function process(source: string, options: TypeScriptOptions = {}): string {
 
   // Example of returning a transpiled source using options provided by project config
   return {
