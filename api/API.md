@@ -12,9 +12,9 @@
     - .zip, .gz, etc.
     - Chained resource provider: case where .zip is coming from https
 - Return source of resource (https case) or direct local location where other loaders can use/find it (file case, potentially .zip case)
-  - Likely returned as a Buffer
-  - NOTE: this is where we could explore returning data objects instead of a buffer
-    - E.g. https loader get-ing a JSON file from the network should not have to serialize it into a Buffer only to have another loader parse the JSON object again - will continue to think through this aspect
+  - Likely returned as a `string`
+  - NOTE: this is where we could explore returning data objects instead of a `string`
+    - E.g. https loader get-ing a JSON file from the network should not have to serialize it into a `string` only to have another loader parse the JSON object again - will continue to think through this aspect
 
 ### Requirements of including and configuring a resourceProvider - in project config:
 - Specify loader
