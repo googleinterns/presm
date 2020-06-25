@@ -19,8 +19,14 @@
   - See example below ↓ ↓
 - NOTE: Could also define defaults options
   - For a Babel `postProcessor`, a default might be to use the project's existing `.babelrc`
-- Return converted source file(s) complete with a valid extension of outputExtensionTypes
-  - NOTE: Anything returned by a `postProcessor` should be runnable by `node` since this is the last step in the loader hook "pipeline"
+- Expect `source` as a param coming from a valid `resourceProvider` OR *IMPORTANT* from another chained `prePrecessor` OR from another chained `postProcessor`
+  - NOTE: I believe `source` should be of type `string`
+    - [Reasoning for this](https://github.com/googleinterns/presm/pull/3#pullrequestreview-436898909)
+  - [Example `postProcessor` template](https://github.com/googleinterns/presm/blob/api-preProcessors/api/preProcessor-template.js)
+
+- Return converted source file(s) either:
+  - In the form of a `string` that `node` will be able to run
+  - As a saved file complete with a valid extension of `outputExtensionTypes`
 
 - Behavior Note: I do not believe a `postProcessor` itself should be filtering files based on these extensions, I believe that to be the responsibility of the caller for this loader
 
