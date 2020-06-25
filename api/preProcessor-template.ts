@@ -10,10 +10,28 @@ export interface TypeScriptOptions {
   tsconfigFile?: string
 }
 
-export function process(source: string, options: TypeScriptOptions = {}): string {
+interface ProcessedFile {
+  source: string,
+  extension?: string
+};
+
+interface preProcessorInstance {
+  process: Function
+};
+
+export function getPreprocessor(options: TypeScriptOptions = {}): preProcessorInstance {
+  // Create instances and state variables
+  // E.g. a CompilerHost instance to compile TypeScript 
+
 
   // Example of returning a transpiled source using options provided by project config
-  return {
-          source: thing.transpileSource(source, options)
+  return { 
+          process(source: string): ProcessedFile{
+            return {
+                    source: thing.transpileSource(source, options),
+                    extension: outputExtensionTypes[0]  // Example of choosing 
+                                                        // a valid extension from possible extensions}
+                  }
         }
+  }
 }
