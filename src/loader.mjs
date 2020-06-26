@@ -23,9 +23,15 @@ export let resolve = resourceProviders[0].resolve;
 
 // Dummy getFormat, effectively eliminating this step
 export async function getFormat(url, context, defaultGetFormat) {
-  return {
-    format: 'module',
-  };
+  if (url.endsWith('.yaml') || url.endsWith('.yml')) {
+    return {
+      format: 'json',
+    };
+  } else {
+    return {
+      format: 'module',
+    };
+  }
 }
 
 // This getSource hook executes chained resourceProviders, preProcessors, and postProcessors
@@ -43,10 +49,20 @@ export async function getSource(url, context, defaultGetSource) {
     }
   }
 
+  // Redefine source for every preProcessor that exists
+  for (const preProcessor of preProcessors) {
+    if (preProcessor.sourceExtensionTypes.some(ext => url.endsWith(ext))) {
+      let preProcessorInstance = preProcessor.getPreProcessor();
+      source = (await preProcessorInstance.process(source)).source;
+    }
+  }
+
   // Redefine source for every postProcessor that exists
   for (const postProcessor of postProcessors) {
-    let postProcessorInstance = postProcessor.getPostProcessor();
-    source = (await postProcessorInstance.process(source)).source;
+    if (postProcessor.sourceFormatTypes.includes(format)) {
+      let postProcessorInstance = postProcessor.getPostProcessor();
+      source = (await postProcessorInstance.process(source)).source;
+    }
   }
 
   return {

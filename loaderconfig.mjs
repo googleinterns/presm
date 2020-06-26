@@ -2,14 +2,19 @@ export default {
   outputPrefix: './dist',
   resourceProviders: [
     {
-      type: '../examples/playground/dummy-fs.mjs',
+      type: '../examples/loaders/resourceprovider-dummy-fs.mjs',
       base: './src',
     },
   ],
-  preProcessors: [],
+  preProcessors: [
+    {
+      name: '../examples/loaders/preprocessor-yaml.mjs',
+      options: {},
+    },
+  ],
   postProcessors: [
     {
-      name: '../examples/playground/consolelog.mjs',
+      name: '../examples/loaders/postprocessor-consolelog.mjs',
       options: {},
     },
   ],
