@@ -1,19 +1,16 @@
-export default
-{
-  "outputPrefix": "./dist",
-  "resourceProviders": [
-    { 
-      "type": "../examples/playground/dummy-fs.mjs", 
-      "base": "./src" 
-    }
-  ],
-  "preProcessors": [
-
-  ],
-  "postProcessors": [
+export default {
+  outputPrefix: './dist',
+  resourceProviders: [
     {
-        "name": "../examples/playground/consolelog.mjs",
-        "options": {}
-    }
-  ]
-}
+      type: '../examples/playground/dummy-fs.mjs',
+      base: './src',
+    },
+  ],
+  preProcessors: [],
+  postProcessors: [
+    {
+      name: '../examples/playground/consolelog.mjs',
+      options: {},
+    },
+  ],
+};
