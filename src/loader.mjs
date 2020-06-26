@@ -26,6 +26,7 @@ export async function getSource(url, context, defaultGetSource) {
 
   let source;
 
+  // Get source using any resouce preovider that accepts this type of URL ("file:")
   for (const resourceProvider of resourceProviders) {
     if(resourceProvider.prefixes.some((prefix) => url.startsWith(prefix))){
       let resourceProviderInstance = resourceProvider.getResourceProvider();
@@ -34,19 +35,16 @@ export async function getSource(url, context, defaultGetSource) {
     }
   }
 
-  if (true) {
-    // For some or all URLs, do some custom logic for retrieving the source.
-    // Always return an object of the form {source: <string|buffer>}.
-
-    for (const postProcessor of postProcessors){
-      let postProcessorInstance = postProcessor.getPostProcessor();
-      source = (await postProcessorInstance.process(source)).source;
-    }
-
-    return {
-      source: source
-    };
+  // Redefine source for every postProcessor that exists
+  for (const postProcessor of postProcessors){
+    let postProcessorInstance = postProcessor.getPostProcessor();
+    source = (await postProcessorInstance.process(source)).source;
   }
+
+  return {
+    source: source
+  };
+
   // Defer to Node.js for all other URLs.
-  return defaultGetSource(url, context, defaultGetSource);
+  // return defaultGetSource(url, context, defaultGetSource);
 }
