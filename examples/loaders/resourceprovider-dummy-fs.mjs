@@ -1,4 +1,4 @@
-import * as fs from 'fs';
+import {promises as fs} from 'fs';
 
 export let prefixes = ['file:'];
 
@@ -21,11 +21,7 @@ export function getResourceProvider() {
         `### Getting resource in dummy resourceProvider for ${url}\n`
       );
 
-      return new Promise((resolve, reject) => {
-        fs.readFile(new URL(url), 'utf8', (err, data) => {
-          resolve(data);
-        });
-      });
+      return fs.readFile(new URL(url), 'utf8');
     },
   };
 }
