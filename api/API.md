@@ -6,7 +6,8 @@
 
 ## `preProcessors`
 
-### Main role: convert from one format to another format
+Main role: convert from one format to another format.
+
 ### Requirements of writing a preProcessor itself:
 - Expose sourceExtensionTypes (from) and outputExtensionTypes (to) extension types for file types it can handle and output
   - Both sourceExtensionTypes and outputExtensionTypes are likely arrays
