@@ -26,6 +26,9 @@ Main role: convert from one format to another format.
 - Return converted source file(s) either:
   - In the form of a `string` that `node` will be able to run
   - As a saved file complete with a valid extension of `outputExtensionTypes`
+  - NOTE: Until Node.js `getFormat` hook is updated as discussed in [this PR](https://github.com/nodejs/node/pull/34144), all `preProcessors` are expected to return a module with a default export for all formats
+    - E.g. a YAML loader must return its converted `JSON` object as the default export in an module
+    - See current `examples/loaders/preprocessor-yaml.mjs` loader in for a working example
 
 - Behavior Note: I do not believe a preProcessor should be filtering files based on these extensions, I believe that to be the responsibility of the caller for this loader
 

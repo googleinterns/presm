@@ -23,15 +23,9 @@ export let resolve = resourceProviders[0].resolve;
 
 // Dummy getFormat, effectively eliminating this step
 export async function getFormat(url, context, defaultGetFormat) {
-  if (url.endsWith('.yaml') || url.endsWith('.yml')) {
-    return {
-      format: 'json',
-    };
-  } else {
-    return {
-      format: 'module',
-    };
-  }
+  return {
+    format: 'module',
+  };
 }
 
 // This getSource hook executes chained resourceProviders, preProcessors, and postProcessors

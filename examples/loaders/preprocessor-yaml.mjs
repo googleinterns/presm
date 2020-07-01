@@ -1,3 +1,5 @@
+import {moduleWrapper} from '../../src/utils.mjs';
+
 import yaml from 'yaml';
 
 export const sourceExtensionTypes = ['.yaml'];
@@ -9,7 +11,7 @@ export function getPreProcessor(options = {}) {
     async process(source) {
       const yamlSource = yaml.parse(source);
       return {
-        source: JSON.stringify(yamlSource),
+        source: moduleWrapper(JSON.stringify(yamlSource)),
       };
     },
   };
