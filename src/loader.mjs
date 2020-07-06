@@ -1,7 +1,5 @@
 import config from '../loaderconfig.mjs';
-
-// console.log("Config File:");
-// console.log(config);
+import {isWrappedModule} from './utils.mjs';
 
 // Load all resourceProviders, preProcessors, and postProcessors as specified in config file
 
@@ -33,6 +31,7 @@ export async function getSource(url, context, defaultGetSource) {
   const {format} = context;
 
   let source;
+  let sourceIsWrappedModule = false;
 
   // Get source using any resouce preovider that accepts this type of URL ("file:")
   for (const resourceProvider of resourceProviders) {
@@ -48,12 +47,20 @@ export async function getSource(url, context, defaultGetSource) {
     if (preProcessor.sourceExtensionTypes.some(ext => url.endsWith(ext))) {
       let preProcessorInstance = preProcessor.getPreProcessor();
       source = (await preProcessorInstance.process(source)).source;
+      sourceIsWrappedModule =
+        sourceIsWrappedModule ||
+        isWrappedModule(preProcessor.outputExtensionTypes)
+          ? true
+          : false;
     }
   }
 
   // Redefine source for every postProcessor that exists
   for (const postProcessor of postProcessors) {
-    if (postProcessor.sourceFormatTypes.includes(format)) {
+    if (
+      postProcessor.sourceFormatTypes.includes(format) &&
+      !sourceIsWrappedModule
+    ) {
       let postProcessorInstance = postProcessor.getPostProcessor();
       source = (await postProcessorInstance.process(source)).source;
     }

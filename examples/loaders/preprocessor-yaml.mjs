@@ -2,7 +2,7 @@ import {moduleWrapper} from '../../src/utils.mjs';
 
 import yaml from 'yaml';
 
-export const sourceExtensionTypes = ['.yaml'];
+export const sourceExtensionTypes = ['.yaml', '.yml'];
 
 export const outputExtensionTypes = ['.json'];
 
