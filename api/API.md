@@ -8,7 +8,7 @@
 
 ## `postProcessors`
 
-### Main role: transform from one format to the _same_ format
+Main role: transform from one format to the _same_ format
 
 #### This turned out to be similar to `preProcessors` but important to define by itself anyway
 
