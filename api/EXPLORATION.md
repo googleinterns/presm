@@ -186,3 +186,16 @@ $ node --loader=presm
   },
 }
 ```
+## Implementation of Loader Workflow for On-the-Fly Running
+
+For all files:
+1. Load all `resourceProviders`, `preProcessors`, and `postProcessors`
+2. Expose a custom `resolve` hook that likely comes from a `resourceProvider`
+3. Expose a `getFormat` hook that recognizes the format of eventual `source` to be returned:
+  - NOTE: Ideally, format resolving should be done later in the tool to be most effective
+    - Therefore I will be submitting a PR to `Node.js` to change this bevavior slightly 
+    - FYI: Supported formats are `builtin`, `commonjs`, `dynamic`, `json`, `module`, `wasm`
+4. Get the source (`string`) of the file via a `resourceProvider` that matches its URL (e.g. `file:`) - stop iterating `resourceProviders` when found
+5. For all `preProcessors`, input and output `source`  for appropriate file extensions/formats
+6. For all `postProcessors`, input and output `source` for appropriate file extensions/formats
+7. Return `source` in an `object` for node to run
