@@ -1,3 +1,4 @@
+import ts from 'typescript';
 export default {
   outputPrefix: './dist',
   resourceProviders: [
@@ -8,8 +9,15 @@ export default {
   ],
   preProcessors: [
     {
-      name: '../examples/loaders/preprocessor-yaml.mjs',
-      options: {},
+      name: '../examples/loaders/preprocessor-typescript.mjs',
+      options: {
+        compilerOptions: {
+          noEmitOnError: true,
+          noImplicitAny: true,
+          target: ts.ScriptTarget.ES5,
+          module: ts.ModuleKind.ESNext,
+        },
+      },
     },
   ],
   postProcessors: [

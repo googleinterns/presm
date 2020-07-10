@@ -11,6 +11,6 @@ const { argv } = loadViaRequire('yargs')
   .alias('d', 'div')
   .array('d');
 
-import { calc } from './calc.ts';
+import { calc } from './calc.js';
 
 console.log(calc(argv));
