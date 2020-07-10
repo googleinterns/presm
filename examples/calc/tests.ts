@@ -1,12 +1,12 @@
-import { createRequire } from 'module';
+import {createRequire} from 'module';
 const loadViaRequire = createRequire(import.meta.url);
 
 // import test from 'tape';
 const test = loadViaRequire('tape');
 
-import { calc } from './calc.ts';
+import {calc} from './calc.js';
 
-const { argv } = loadViaRequire('yargs').config({});
+const {argv} = loadViaRequire('yargs').config({});
 
 function modifyTestArgv(op: string, a: number, b: number) {
   delete argv.add;
@@ -17,11 +17,20 @@ function modifyTestArgv(op: string, a: number, b: number) {
   return argv;
 }
 
-function createCorrectOutput(op: string, op_symbol: string, a: number, b: number, res: (number | string)): string {
+function createCorrectOutput(
+  op: string,
+  op_symbol: string,
+  a: number,
+  b: number,
+  res: number | string
+): string {
   return `${op} ${a}${op_symbol}${b} = ${res}`;
 }
 
-test('add test', (t: { plan: (arg0: number) => void; equal: (arg0: string, arg1: string) => void; }) => {
+test('add test', (t: {
+  plan: (arg0: number) => void;
+  equal: (arg0: string, arg1: string) => void;
+}) => {
   t.plan(2);
 
   const op = 'add';
@@ -43,7 +52,10 @@ test('add test', (t: { plan: (arg0: number) => void; equal: (arg0: string, arg1:
   );
 });
 
-test('sub test', (t: { plan: (arg0: number) => void; equal: (arg0: string, arg1: string) => void; }) => {
+test('sub test', (t: {
+  plan: (arg0: number) => void;
+  equal: (arg0: string, arg1: string) => void;
+}) => {
   t.plan(2);
 
   const op = 'sub';
@@ -65,7 +77,10 @@ test('sub test', (t: { plan: (arg0: number) => void; equal: (arg0: string, arg1:
   );
 });
 
-test('mult test', (t: { plan: (arg0: number) => void; equal: (arg0: string, arg1: string) => void; }) => {
+test('mult test', (t: {
+  plan: (arg0: number) => void;
+  equal: (arg0: string, arg1: string) => void;
+}) => {
   t.plan(2);
 
   const op = 'mult';
@@ -87,14 +102,17 @@ test('mult test', (t: { plan: (arg0: number) => void; equal: (arg0: string, arg1
   );
 });
 
-test('div test', (t: { plan: (arg0: number) => void; equal: (arg0: string, arg1: string) => void; }) => {
+test('div test', (t: {
+  plan: (arg0: number) => void;
+  equal: (arg0: string, arg1: string) => void;
+}) => {
   t.plan(2);
 
   const op = 'div';
   const op_symbol = '/';
   let a = 5;
   let b = 10;
-  let res: (string | number) = 0.5;
+  let res: string | number = 0.5;
   t.equal(
     calc(modifyTestArgv(op, a, b)),
     createCorrectOutput(op, op_symbol, a, b, res)
