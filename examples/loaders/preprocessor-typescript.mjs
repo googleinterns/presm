@@ -7,34 +7,59 @@ export let outputExtensionTypes = ['.mjs', '.cjs'];
 export function getPreProcessor(configOptions = {}) {
   return {
     process(source, url) {
-
-      source = ts.transpileModule(source, configOptions).outputText;
-
-      let moduleResolutionHost = {
-        fileExists: fileName => {
-          return ts.sys.fileExists(fileName);
-        },
-      };
-      let regex = '(?<=("|\'))(w|d|/|.)+(.js|.ts)(?=("|\'))';
-      let specifierList = [...source.matchAll(regex)];
-      if (specifierList) {
-        for (const specifier of specifierList) {
-          let oldSpecifier = specifier[0];
-          let newSpecifier = ts.resolveModuleName(
-            oldSpecifier,
-            url.replace('file://', ''),
-            configOptions.compilerOptions || {},
-            moduleResolutionHost
-          ).resolvedModule;
-
-          if (newSpecifier) {
-            source = source.replace(
-              oldSpecifier,
-              newSpecifier.resolvedFileName
-            );
-          }
-        }
+      // Return new, resolved specifier using ts-specific
+      // logic if one exists; undefined otherwise
+      function getNewSpecficier(oldSpecifier) {
+        let moduleResolutionHost = {
+          fileExists: fileName => {
+            return ts.sys.fileExists(fileName);
+          },
+        };
+        return ts.resolveModuleName(
+          oldSpecifier,
+          url.replace('file://', ''),
+          configOptions.compilerOptions || {},
+          moduleResolutionHost
+        ).resolvedModule?.resolvedFileName;
       }
+
+      // Transformer to replace import specifiers with actual path
+      // using ts-specific logic
+      function tsModuleResolver() {
+        return context => {
+          function visit(node, inImportDeclaration) {
+            if (inImportDeclaration && ts.isStringLiteral(node)) {
+              let oldSpecifier = node.text;
+              let newSpecifier = getNewSpecficier(oldSpecifier);
+              if (newSpecifier) {
+                return ts.createStringLiteral(newSpecifier);
+              }
+              return node;
+            } else if (ts.isImportDeclaration(node)) {
+              return ts.visitEachChild(
+                node,
+                child => visit(child, true),
+                context
+              );
+            } else {
+              return ts.visitEachChild(
+                node,
+                child => visit(child, false),
+                context
+              );
+            }
+          }
+
+          return node => ts.visitNode(node, visit);
+        };
+      }
+
+      // Add resolver to hook into transpiler logic "before"
+      // transpiling occurs
+      configOptions.transformers = {before: [tsModuleResolver()]};
+
+      // Transpile source
+      source = ts.transpileModule(source, configOptions).outputText;
 
       return {
         source: source,

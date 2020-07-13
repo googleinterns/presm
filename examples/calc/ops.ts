@@ -14,7 +14,7 @@ function div(a: number, b: number): number {
   return a / b;
 }
 
-export const ops_list: { [x: string]: (a: number, b: number) => number } = {
+export const ops_list: {[x: string]: (a: number, b: number) => number} = {
   add: add,
   sub: sub,
   mult: mult,
@@ -22,7 +22,3 @@ export const ops_list: { [x: string]: (a: number, b: number) => number } = {
 };
 
 export const ops_symbols_list: string[] = ['+', '-', '*', '/'];
-
-export interface argvType {
-  [x: string]: string[];
-}

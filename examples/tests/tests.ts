@@ -4,11 +4,11 @@ const loadViaRequire = createRequire(import.meta.url);
 // import test from 'tape';
 const test = loadViaRequire('tape');
 
-import {calc} from '../calc/calc.js';
+import {calc} from '../calc/calc';
 
 const {argv} = loadViaRequire('yargs').config({});
 
-import {modifyTestArgv, createCorrectOutput} from '../calc/test_functions.ts';
+import {modifyTestArgv, createCorrectOutput} from '../calc/test_functions';
 
 test('Import resolution tests', async (t: any) => {
   t.plan(2);
