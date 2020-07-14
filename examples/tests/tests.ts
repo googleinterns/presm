@@ -10,10 +10,17 @@ const {argv} = loadViaRequire('yargs').config({});
 
 import {modifyTestArgv, createCorrectOutput} from '../calc/test_functions.ts';
 
-test('Sample calc app tests', (t: {
-  plan: (arg0: number) => void;
-  equal: (arg0: string, arg1: string) => void;
-}) => {
+test('Import resolution tests', async (t: any) => {
+  t.plan(2);
+
+  let {dummy} = await import('./testfiles/testmodule');
+  t.equal(dummy, 42);
+
+  let {dummy2} = await import('./testfiles/testmodule.js');
+  t.equal(dummy2, 42);
+});
+
+test('Sample calc app tests', (t: any) => {
   t.plan(8);
 
   // Add Tests
