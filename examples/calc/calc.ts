@@ -1,6 +1,11 @@
 import {opsList, opsSymbolsList} from './ops';
 
-export function calc(argv: {[x: string]: string[]}): string {
+ 
+interface argvType {
+  [x: string]: string[];
+}
+
+export function calc(argv: argvType): string {
   let chosenOpString = '';
   let chosenOpSymbol = '';
 
