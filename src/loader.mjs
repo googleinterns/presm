@@ -10,17 +10,40 @@ let resourceProviders = await Promise.all(
 );
 
 let preProcessors = await Promise.all(
-  config.preProcessors.map((preProcessor, i) => import(preProcessor.name))
+  config.preProcessors.map(
+    (preProcessor, i) =>
+      new Promise(async (resolve, reject) => {
+        let module = await import(preProcessor.name);
+        resolve({
+          module: module,
+          options: preProcessor.options,
+        });
+      })
+  )
 );
 
 let postProcessors = await Promise.all(
-  config.postProcessors.map((postProcessor, i) => import(postProcessor.name))
+  config.postProcessors.map(
+    (postProcessor, i) =>
+      new Promise(async (resolve, reject) => {
+        let module = await import(postProcessor.name);
+        resolve({
+          module: module,
+          options: postProcessor.options,
+        });
+      })
+  )
 );
 
 export let resolve = resourceProviders[0].resolve;
 
 // Dummy getFormat, effectively eliminating this step
 export async function getFormat(url, context, defaultGetFormat) {
+  if (url.startsWith('nodejs')) {
+    return {
+      format: 'builtin',
+    };
+  }
   return {
     format: 'module',
   };
@@ -44,12 +67,16 @@ export async function getSource(url, context, defaultGetSource) {
 
   // Redefine source for every preProcessor that exists
   for (const preProcessor of preProcessors) {
-    if (preProcessor.sourceExtensionTypes.some(ext => url.endsWith(ext))) {
-      let preProcessorInstance = preProcessor.getPreProcessor();
-      source = (await preProcessorInstance.process(source)).source;
+    if (
+      preProcessor.module.sourceExtensionTypes.some(ext => url.endsWith(ext))
+    ) {
+      let preProcessorInstance = preProcessor.module.getPreProcessor(
+        preProcessor.options
+      );
+      source = (await preProcessorInstance.process(source, url)).source;
       sourceIsWrappedModule =
         sourceIsWrappedModule ||
-        isWrappedModule(preProcessor.outputExtensionTypes)
+        isWrappedModule(preProcessor.module.outputExtensionTypes)
           ? true
           : false;
     }
@@ -58,10 +85,10 @@ export async function getSource(url, context, defaultGetSource) {
   // Redefine source for every postProcessor that exists
   for (const postProcessor of postProcessors) {
     if (
-      postProcessor.sourceFormatTypes.includes(format) &&
+      postProcessor.module.sourceFormatTypes.includes(format) &&
       !sourceIsWrappedModule
     ) {
-      let postProcessorInstance = postProcessor.getPostProcessor();
+      let postProcessorInstance = postProcessor.module.getPostProcessor();
       source = (await postProcessorInstance.process(source)).source;
     }
   }
