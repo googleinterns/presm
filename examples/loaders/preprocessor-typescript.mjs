@@ -55,8 +55,17 @@ export function getPreProcessor(configOptions = {}) {
       }
 
       // Add resolver to hook into transpiler logic "before"
-      // transpiling occurs
-      configOptions.transformers = {before: [tsModuleResolver()]};
+      // transpiling occurs - after existing hooks
+      configOptions = {
+        ...configOptions,
+        transformers: {
+          ...configOptions.transformers,
+          before: (configOptions.transformers?.before
+            ? configOptions.transformers.before
+            : []
+          ).concat([tsModuleResolver()]),
+        },
+      };
 
       // Transpile source
       source = ts.transpileModule(source, configOptions).outputText;
