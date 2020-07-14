@@ -27,15 +27,15 @@ export function getPreProcessor(configOptions = {}) {
       // using ts-specific logic
       function tsModuleResolver() {
         return context => {
-          function visit(node, inImportDeclaration) {
-            if (inImportDeclaration && ts.isStringLiteral(node)) {
+          function visit(node, inImportExpression) {
+            if (inImportExpression && ts.isStringLiteral(node)) {
               let oldSpecifier = node.text;
               let newSpecifier = getNewSpecficier(oldSpecifier);
               if (newSpecifier) {
                 return ts.createStringLiteral(newSpecifier);
               }
               return node;
-            } else if (ts.isImportDeclaration(node)) {
+            } else if (ts.isImportDeclaration(node) || ts.isImportCall(node)) {
               return ts.visitEachChild(
                 node,
                 child => visit(child, true),
