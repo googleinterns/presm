@@ -10,6 +10,24 @@ const {argv} = loadViaRequire('yargs').config({});
 
 import {modifyTestArgv, createCorrectOutput} from '../calc/test_functions';
 
+// Imports for tests
+import testYAMLFile1 from './testfiles/yamlExample.yaml';
+import testYAMLFile2 from './testfiles/yamlExample.yml';
+
+test('YAML Loader: Import YAML File', async (t: any) => {
+  t.plan(2);
+
+  let truthYAMLFile = {
+    Employees: [
+      {'John Doe': {job: 'SWE', skills: ['python', 'java']}},
+      {'Jane Doe': {job: 'SWE', skills: ['java', 'python', 'php']}},
+    ],
+  };
+
+  t.deepEquals(truthYAMLFile, testYAMLFile1);
+  t.deepEquals(truthYAMLFile, testYAMLFile2);
+});
+
 test('Import resolution tests', async (t: any) => {
   t.plan(2);
 

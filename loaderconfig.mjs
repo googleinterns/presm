@@ -9,6 +9,10 @@ export default {
   ],
   preProcessors: [
     {
+      name: '../examples/loaders/preprocessor-yaml.mjs',
+      options: {},
+    },
+    {
       name: '../examples/loaders/preprocessor-typescript.mjs',
       options: {
         compilerOptions: {
