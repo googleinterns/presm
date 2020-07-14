@@ -9,7 +9,7 @@ export function getPreProcessor(configOptions = {}) {
     process(source, url) {
       // Return new, resolved specifier using ts-specific
       // logic if one exists; undefined otherwise
-      function getNewSpecficier(oldSpecifier) {
+      function getNewSpecifier(oldSpecifier) {
         let moduleResolutionHost = {
           fileExists: fileName => {
             return ts.sys.fileExists(fileName);
@@ -30,7 +30,7 @@ export function getPreProcessor(configOptions = {}) {
           function visit(node, inImportExpression) {
             if (inImportExpression && ts.isStringLiteral(node)) {
               let oldSpecifier = node.text;
-              let newSpecifier = getNewSpecficier(oldSpecifier);
+              let newSpecifier = getNewSpecifier(oldSpecifier);
               if (newSpecifier) {
                 return ts.createStringLiteral(newSpecifier);
               }
