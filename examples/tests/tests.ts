@@ -44,13 +44,13 @@ test('Sample calc app tests', (t: any) => {
   // Add Tests
 
   let op = 'add';
-  let op_symbol = '+';
+  let opSymbol = '+';
   let a = 5;
   let b = 10;
   let res: string | number = 15;
   t.equal(
     calc(modifyTestArgv(argv, op, a, b)),
-    createCorrectOutput(op, op_symbol, a, b, res)
+    createCorrectOutput(op, opSymbol, a, b, res)
   );
 
   a = 15;
@@ -58,19 +58,19 @@ test('Sample calc app tests', (t: any) => {
   res = 15;
   t.equal(
     calc(modifyTestArgv(argv, op, a, b)),
-    createCorrectOutput(op, op_symbol, a, b, res)
+    createCorrectOutput(op, opSymbol, a, b, res)
   );
 
   // Sub Tests
 
   op = 'sub';
-  op_symbol = '-';
+  opSymbol = '-';
   a = 5;
   b = 10;
   res = -5;
   t.equal(
     calc(modifyTestArgv(argv, op, a, b)),
-    createCorrectOutput(op, op_symbol, a, b, res)
+    createCorrectOutput(op, opSymbol, a, b, res)
   );
 
   a = 15;
@@ -78,19 +78,19 @@ test('Sample calc app tests', (t: any) => {
   res = 15;
   t.equal(
     calc(modifyTestArgv(argv, op, a, b)),
-    createCorrectOutput(op, op_symbol, a, b, res)
+    createCorrectOutput(op, opSymbol, a, b, res)
   );
 
   // Mult Tests
 
   op = 'mult';
-  op_symbol = '*';
+  opSymbol = '*';
   a = 5;
   b = 10;
   res = 50;
   t.equal(
     calc(modifyTestArgv(argv, op, a, b)),
-    createCorrectOutput(op, op_symbol, a, b, res)
+    createCorrectOutput(op, opSymbol, a, b, res)
   );
 
   a = 15;
@@ -98,19 +98,19 @@ test('Sample calc app tests', (t: any) => {
   res = 0;
   t.equal(
     calc(modifyTestArgv(argv, op, a, b)),
-    createCorrectOutput(op, op_symbol, a, b, res)
+    createCorrectOutput(op, opSymbol, a, b, res)
   );
 
   // Div Tests
 
   op = 'div';
-  op_symbol = '/';
+  opSymbol = '/';
   a = 5;
   b = 10;
   res = 0.5;
   t.equal(
     calc(modifyTestArgv(argv, op, a, b)),
-    createCorrectOutput(op, op_symbol, a, b, res)
+    createCorrectOutput(op, opSymbol, a, b, res)
   );
 
   a = 15;
@@ -118,6 +118,6 @@ test('Sample calc app tests', (t: any) => {
   res = 'Infinity';
   t.equal(
     calc(modifyTestArgv(argv, op, a, b)),
-    createCorrectOutput(op, op_symbol, a, b, res)
+    createCorrectOutput(op, opSymbol, a, b, res)
   );
 });

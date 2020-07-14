@@ -1,24 +1,24 @@
-import {ops_list, ops_symbols_list} from './ops';
+import {opsList, opsSymbolsList} from './ops';
 
 export function calc(argv: {[x: string]: string[]}): string {
-  let chosen_op_string = '';
-  let chosen_op_symbol = '';
+  let chosenOpString = '';
+  let chosenOpSymbol = '';
 
   if (
-    Object.keys(ops_list).some((op, i) =>
+    Object.keys(opsList).some((op, i) =>
       op in argv
-        ? ((chosen_op_string = op),
-          (chosen_op_symbol = ops_symbols_list[i]),
+        ? ((chosenOpString = op),
+          (chosenOpSymbol = opsSymbolsList[i]),
           true)
         : false
     )
   ) {
-    const equation = argv[chosen_op_string].join(chosen_op_symbol);
-    const a: number = parseFloat(argv[chosen_op_string][0]);
-    const b: number = parseFloat(argv[chosen_op_string][1]);
-    const res = ops_list[chosen_op_string](a, b);
+    const equation = argv[chosenOpString].join(chosenOpSymbol);
+    const a: number = parseFloat(argv[chosenOpString][0]);
+    const b: number = parseFloat(argv[chosenOpString][1]);
+    const res = opsList[chosenOpString](a, b);
 
-    return `${chosen_op_string} ${equation} = ${res}`;
+    return `${chosenOpString} ${equation} = ${res}`;
   } else {
     return 'Invalid calculation';
   }
