@@ -63,8 +63,8 @@ export function getPreProcessor(configOptions = {}) {
 
       return {
         source: source,
-        extension: outputExtensionTypes[0], // Example of choosing
-        // a valid extension from possible extensions}
+        // Example of choosing a valid extension from possible extensions
+        extension: outputExtensionTypes[0],
       };
     },
   };
