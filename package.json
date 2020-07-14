@@ -26,6 +26,6 @@
     "clean": "gts clean",
     "compile": "tsc",
     "fix": "gts fix",
-    "test": "node --experimental-top-level-await --experimental-loader ./src/loader.mjs ../presm/examples/tests/tests.mjs"
+    "test": "node --experimental-top-level-await --experimental-loader ./src/loader.mjs ../presm/examples/tests/tests.ts"
   }
 }

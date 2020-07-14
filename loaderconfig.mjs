@@ -14,7 +14,7 @@ export default {
         compilerOptions: {
           noEmitOnError: true,
           noImplicitAny: true,
-          target: ts.ScriptTarget.ES5,
+          target: ts.ScriptTarget.ESNext,
           module: ts.ModuleKind.ESNext,
         },
       },
