@@ -4,11 +4,11 @@ const loadViaRequire = createRequire(import.meta.url);
 // import test from 'tape';
 const test = loadViaRequire('tape');
 
-import {calc} from '../calc/calc';
+import {calc} from '../examples/calc/calc';
 
 const {argv} = loadViaRequire('yargs').config({});
 
-import {modifyTestArgv, createCorrectOutput} from '../calc/test_functions';
+import {modifyTestArgv, createCorrectOutput} from '../examples/calc/test_functions';
 
 // Imports for tests
 import testYAMLFile1 from './testfiles/yamlExample.yaml';
