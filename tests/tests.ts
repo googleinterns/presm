@@ -1,7 +1,6 @@
 import {createRequire} from 'module';
 const loadViaRequire = createRequire(import.meta.url);
 
-// import test from 'tape';
 const test = loadViaRequire('tape');
 
 import {calc} from '../examples/calc/calc';
