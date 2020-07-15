@@ -88,8 +88,8 @@ test('[Unit] YAML Loader: ', async t => {
     t,
     preProcessorYAML,
     optionsYAML,
-    ['./tests/testfiles/yamlExample.yaml'],
-    ['./tests/testfiles/yamlExample.json']
+    ['./tests/fixtures/yamlExample.yaml'],
+    ['./tests/fixtures/yamlExample.json']
   );
 
   t.end();
@@ -134,16 +134,16 @@ test('[Unit] TypeScript Loader: ', async t => {
     preProcessorTypeScript,
     tsOptionsList,
     [
-      './tests/testfiles/tsmodule1.ts',
-      './tests/testfiles/tsmodule2.ts',
-      './tests/testfiles/tsmodule3.ts',
-      './tests/testfiles/tsmodule4.ts',
+      './tests/fixtures/tsmodule1.ts',
+      './tests/fixtures/tsmodule2.ts',
+      './tests/fixtures/tsmodule3.ts',
+      './tests/fixtures/tsmodule4.ts',
     ],
     [
-      './tests/testfiles/tsmodule1.mjs',
-      './tests/testfiles/tsmodule2.mjs',
-      './tests/testfiles/tsmodule3.mjs',
-      './tests/testfiles/tsmodule4.mjs',
+      './tests/fixtures/tsmodule1.mjs',
+      './tests/fixtures/tsmodule2.mjs',
+      './tests/fixtures/tsmodule3.mjs',
+      './tests/fixtures/tsmodule4.mjs',
     ]
   );
 
