@@ -8,6 +8,7 @@ import {moduleWrapper} from '../src/utils.mjs';
 import {promises as fs} from 'fs';
 import url from 'url';
 import assert from 'assert';
+import ts from 'typescript';
 
 // Tests exports that all Pre-Processors should have
 function testPreProcessorExports(t, preprocessor, options) {
@@ -33,14 +34,22 @@ function testPreProcessorExports(t, preprocessor, options) {
  * NOTE: inputs and outputs must be the same length
  */
 async function batchTest(t, processor, options, inputs, outputs) {
-  assert.equal(inputs.length, outputs.length);
+  assert.equal(
+    inputs.length,
+    outputs.length,
+    '# of input files does not match # of output files'
+  );
   options = Array.isArray(options)
     ? options
     : Array(inputs.length).fill(options);
 
   let numTests = inputs.length;
 
-  assert.equal(options.length, numTests);
+  assert.equal(
+    options.length,
+    numTests,
+    '# of options does not match # of tests'
+  );
 
   for (let testIdx = 0; testIdx < numTests; testIdx++) {
     let processorInstance = processor.getPreProcessor(options[testIdx]);
@@ -91,21 +100,51 @@ test('[Unit] TypeScript Loader: ', async t => {
     '../examples/loaders/preprocessor-typescript.mjs'
   );
 
-  let tsOptions = {
-    compilerOptions: {
-      target: 'esnext',
-      module: 'esnext',
+  let tsOptionsList = [
+    {
+      compilerOptions: {
+        target: 'esnext',
+        module: 'esnext',
+      },
     },
-  };
+    {
+      compilerOptions: {
+        target: 'esnext',
+        module: 'esnext',
+      },
+    },
+    {
+      compilerOptions: {
+        target: ts.ScriptTarget.ESNext,
+        module: ts.ModuleKind.CommonJS,
+      },
+    },
+    {
+      compilerOptions: {
+        target: ts.ScriptTarget.ESNext,
+        module: ts.ModuleKind.ES2015,
+      },
+    },
+  ];
 
-  testPreProcessorExports(t, preProcessorTypeScript, tsOptions);
+  testPreProcessorExports(t, preProcessorTypeScript, tsOptionsList[0]);
 
   await batchTest(
     t,
     preProcessorTypeScript,
-    tsOptions,
-    ['./tests/testfiles/tsmodule1.ts', './tests/testfiles/tsmodule2.ts'],
-    ['./tests/testfiles/tsmodule1.mjs', './tests/testfiles/tsmodule2.mjs']
+    tsOptionsList,
+    [
+      './tests/testfiles/tsmodule1.ts',
+      './tests/testfiles/tsmodule2.ts',
+      './tests/testfiles/tsmodule3.ts',
+      './tests/testfiles/tsmodule4.ts',
+    ],
+    [
+      './tests/testfiles/tsmodule1.mjs',
+      './tests/testfiles/tsmodule2.mjs',
+      './tests/testfiles/tsmodule3.mjs',
+      './tests/testfiles/tsmodule4.mjs',
+    ]
   );
 
   t.end();
