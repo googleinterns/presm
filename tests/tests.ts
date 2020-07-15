@@ -31,10 +31,10 @@ test('YAML Loader: Import YAML File', async (t: any) => {
 test('Import resolution tests', async (t: any) => {
   t.plan(2);
 
-  let {dummy} = await import('./testfiles/testmodule');
+  let {dummy} = await import('./testfiles/tsmodule1');
   t.equal(dummy, 42);
 
-  let {dummy2} = await import('./testfiles/testmodule.js');
+  let {dummy2} = await import('./testfiles/tsmodule1.js');
   t.equal(dummy2, 42);
 });
 

@@ -7,9 +7,9 @@ const test = loadViaRequire('tape');
 import {moduleWrapper} from '../src/utils.mjs';
 import {promises as fs} from 'fs';
 import url from 'url';
+import assert from 'assert';
 
 // Tests exports that all Pre-Processors should have
-// Returns insatnce of getPreProcessor if successful
 function testPreProcessorExports(t, preprocessor, options) {
   t.ok(preprocessor.sourceExtensionTypes, 'Exports sourceExtensionTypes');
   t.ok(preprocessor.outputExtensionTypes, 'Exports outputExtensionTypes');
@@ -18,7 +18,52 @@ function testPreProcessorExports(t, preprocessor, options) {
   let preprocessorInstance = preprocessor.getPreProcessor(options);
   t.ok(preprocessorInstance.process, 'Exports process()');
 
-  return preprocessorInstance;
+  return true;
+}
+
+/**
+ * Takes input files and asserts that they match output files after
+ * being processed by the "processor"
+ *
+ * @param t The Tape object
+ * @param processor A Pre- or Post- Processor object
+ * @param options Options passed to the "process", see loaderconfig.mjs
+ * @param inputs List of input source files to processor
+ * @param outputs List of output source files to assert equivalency against
+ * NOTE: inputs and outputs must be the same length
+ */
+async function batchTest(t, processor, options, inputs, outputs) {
+  assert.equal(inputs.length, outputs.length);
+  options = Array.isArray(options)
+    ? options
+    : Array(inputs.length).fill(options);
+
+  let numTests = inputs.length;
+
+  assert.equal(options.length, numTests);
+
+  for (let testIdx = 0; testIdx < numTests; testIdx++) {
+    let processorInstance = processor.getPreProcessor(options[testIdx]);
+
+    let rawTSSource = await pathToRawSource(inputs[testIdx]);
+    let rawTSOutput = await pathToRawSource(outputs[testIdx]);
+
+    let urlToProcess = url.pathToFileURL(inputs[testIdx]).toString();
+    let transpiledTSOutput = (
+      await processorInstance.process(rawTSSource, urlToProcess)
+    )?.source;
+
+    t.deepEquals(
+      transpiledTSOutput,
+      rawTSOutput,
+      `Transpiles TS to JS correctly, TestID: ${testIdx + 1}`
+    );
+  }
+}
+
+async function pathToRawSource(path) {
+  let pathURL = url.pathToFileURL(path);
+  return fs.readFile(new URL(pathURL), 'utf8');
 }
 
 test('[Unit] YAML Loader: ', async t => {
@@ -26,31 +71,41 @@ test('[Unit] YAML Loader: ', async t => {
     '../examples/loaders/preprocessor-yaml.mjs'
   );
 
-  let preProcessorYAMLInstance = testPreProcessorExports(
+  let optionsYAML = {};
+
+  testPreProcessorExports(t, preProcessorYAML, optionsYAML);
+
+  await batchTest(
     t,
     preProcessorYAML,
-    {}
+    optionsYAML,
+    ['./tests/testfiles/yamlExample.yaml'],
+    ['./tests/testfiles/yamlExample.json']
   );
 
-  let urlYAML = url.pathToFileURL('./tests/testfiles/yamlExample.yaml');
-  let rawYAMLSource = await fs.readFile(new URL(urlYAML), 'utf8');
+  t.end();
+});
 
-  let jsonYAMLOutput = (await preProcessorYAMLInstance.process(rawYAMLSource))
-    ?.source;
-
-  let truthYAMLJSON = moduleWrapper(
-    JSON.stringify({
-      Employees: [
-        {'John Doe': {job: 'SWE', skills: ['python', 'java']}},
-        {'Jane Doe': {job: 'SWE', skills: ['java', 'python', 'php']}},
-      ],
-    })
+test('[Unit] TypeScript Loader: ', async t => {
+  let preProcessorTypeScript = await import(
+    '../examples/loaders/preprocessor-typescript.mjs'
   );
 
-  t.deepEquals(
-    truthYAMLJSON,
-    jsonYAMLOutput,
-    'Converts YAML to JSON correctly'
+  let tsOptions = {
+    compilerOptions: {
+      target: 'esnext',
+      module: 'esnext',
+    },
+  };
+
+  testPreProcessorExports(t, preProcessorTypeScript, tsOptions);
+
+  await batchTest(
+    t,
+    preProcessorTypeScript,
+    tsOptions,
+    ['./tests/testfiles/tsmodule1.ts', './tests/testfiles/tsmodule2.ts'],
+    ['./tests/testfiles/tsmodule1.mjs', './tests/testfiles/tsmodule2.mjs']
   );
 
   t.end();
