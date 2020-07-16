@@ -1,7 +1,7 @@
 import {opsList, opsSymbolsList} from './ops';
 
  
-interface argvType {
+interface ArgvType {
   [x: string]: string[];
 }
 
