@@ -15,12 +15,13 @@ export function getPreProcessor(configOptions = {}) {
             return ts.sys.fileExists(fileName);
           },
         };
-        return ts.resolveModuleName(
+        let resolvedModule = ts.resolveModuleName(
           oldSpecifier,
           url.replace('file://', ''),
           configOptions.compilerOptions || {},
           moduleResolutionHost
-        ).resolvedModule?.resolvedFileName;
+        ).resolvedModule;
+        return resolvedModule ? resolvedModule.resolvedFileName : undefined;
       }
 
       // Transformer to replace import specifiers with actual path
@@ -60,8 +61,8 @@ export function getPreProcessor(configOptions = {}) {
         ...configOptions,
         transformers: {
           ...configOptions.transformers,
-          before: (configOptions.transformers?.before
-            ? configOptions.transformers.before
+          before: (configOptions.transformers
+            ? configOptions.transformers.before || []
             : []
           ).concat([tsModuleResolver()]),
         },
