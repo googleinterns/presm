@@ -11,7 +11,7 @@
     "eslint": "^7.2.0",
     "gts": "^2.0.2",
     "prettier": "^2.0.5",
-    "tape": "^5.0.1",
+    "tap": "^14.10.7",
     "typescript": "^3.9.5",
     "yaml": "^1.10.0",
     "yargs": "^15.3.1"
@@ -28,6 +28,6 @@
     "fix": "gts fix",
     "test": "npm run test-unit",
     "test-ts": "node --experimental-top-level-await --experimental-loader ./src/loader.mjs ../presm/tests/tests.ts",
-    "test-unit": "node --experimental-top-level-await ./tests/tests.mjs"
+    "test-unit": "tap ./test/unit/"
   }
 }

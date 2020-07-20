@@ -1,7 +1,7 @@
 import {promises as fs} from 'fs';
 import url from 'url';
 import assert from 'assert';
-import path from 'path';
+import tap from 'tap';
 
 export async function pathToRawSource(absPath) {
   let fileURL = url.pathToFileURL(absPath);
@@ -9,34 +9,52 @@ export async function pathToRawSource(absPath) {
 }
 
 // Tests exports that all Pre-Processors should have
-export function testPreProcessorExports(t, preprocessor, options) {
-  t.ok(preprocessor.sourceExtensionTypes, 'Exports sourceExtensionTypes');
-  t.ok(preprocessor.outputExtensionTypes, 'Exports outputExtensionTypes');
-  t.ok(preprocessor.getPreProcessor, 'Exports getPreProcessor()');
+export function testPreProcessorExports(preprocessor, options) {
+  tap.has(
+    preprocessor,
+    {
+      sourceExtensionTypes: Array,
+    },
+    'Exports sourceExtensionTypes'
+  );
+
+  tap.has(
+    preprocessor,
+    {
+      outputExtensionTypes: Array,
+    },
+    'Exports outputExtensionTypes'
+  );
+
+  tap.has(
+    preprocessor,
+    {
+      getPreProcessor: Function,
+    },
+    'Exports getPreProcessor'
+  );
 
   let preprocessorInstance = preprocessor.getPreProcessor(options);
-  t.ok(preprocessorInstance.process, 'Exports process()');
+  tap.has(
+    preprocessorInstance,
+    {
+      process: Function,
+    },
+    'Exports process()'
+  );
 
-  return true;
+  return;
 }
 
 /**
  * Takes input files and asserts that they match output files after
  * being processed by the "processor"
  *
- * @param t The Tape object
  * @param processor A Pre- or Post- Processor object
  * @param options Options passed to the "process", see loaderconfig.mjs
- * @param inputs List of input source files to processor
- * @param outputs List of output source files to assert equivalency against
- * NOTE: inputs and outputs must be the same length
+ * @param inputs List of input source files to process
  */
-export async function batchTest(t, processor, options, inputs, outputs, msg) {
-  assert.equal(
-    inputs.length,
-    outputs.length,
-    '# of input files does not match # of output files'
-  );
+export async function batchTest(processor, options, inputs) {
   options = Array.isArray(options)
     ? options
     : Array(inputs.length).fill(options);
@@ -53,13 +71,14 @@ export async function batchTest(t, processor, options, inputs, outputs, msg) {
     let processorInstance = processor.getPreProcessor(options[testIdx]);
 
     let rawSource = await pathToRawSource(inputs[testIdx]);
-    let rawOutput = await pathToRawSource(outputs[testIdx]);
 
     let urlToProcess = url.pathToFileURL(inputs[testIdx]).toString();
-    let processedOutput = (
-      await processorInstance.process(rawSource, urlToProcess)
-    )?.source;
-
-    t.deepEquals(processedOutput, rawOutput, `${msg}, TestID: ${testIdx + 1}`);
+    let processedOutput = await processorInstance.process(
+      rawSource,
+      urlToProcess
+    );
+    tap.matchSnapshot(processedOutput, `Pre-Processor processes input correctly`);
   }
+
+  return;
 }
