@@ -15,7 +15,7 @@ Object {
 exports[`test/unit/ts.mjs TAP > Pre-Processor processes input correctly 2`] = `
 Object {
   "extension": ".mjs",
-  "source": "import { dummy } from \\"/usr/local/google/home/jlondono/Documents/presm/test/fixtures/tsmodule1.ts\\";\\n",
+  "source": "import { dummy } from \\"/usr/local/google/home/jlondono/Documents/presm/test/fixtures/tsmodule1.ts\\";\\nconsole.log(dummy);\\n",
 }
 `
 
@@ -29,6 +29,6 @@ Object {
 exports[`test/unit/ts.mjs TAP > Pre-Processor processes input correctly 4`] = `
 Object {
   "extension": ".mjs",
-  "source": "export const dummy = 42;\\nexport const dummy2 = [42, 42, 42];\\n",
+  "source": "export const dummy = 42;\\nexport const dummy2 = [42, 42, 42];\\nconsole.log(dummy);\\nconsole.log(dummy2);\\n",
 }
 `

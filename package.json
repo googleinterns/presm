@@ -26,9 +26,11 @@
     "clean": "gts clean",
     "compile": "tsc",
     "fix": "gts fix",
-    "test": "npm run test-unit",
-    "test-ts": "node --experimental-top-level-await --experimental-loader ./src/loader.mjs ../presm/tests/tests.ts",
-    "test-unit": "tap ./test/unit/",
-    "test-system": "tap ./test/system/"
+    "test": "npm run test-unit && npm run test-system",
+    "test-snapshot": "npm run test-snapshot-unit && npm run test-snapshot-system",
+    "test-unit": "tap --no-coverage ./test/unit/",
+    "test-system": "tap --no-coverage ./test/system/",
+    "test-snapshot-unit": "tap --no-coverage --snapshot ./test/unit/",
+    "test-snapshot-system": "tap --no-coverage --snapshot ./test/system/"
   }
 }
