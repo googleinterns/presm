@@ -5,7 +5,7 @@
  * Make sure to inspect the output below.  Do not ignore changes!
  */
 'use strict'
-exports[`test/unit/yaml.mjs TAP > Pre-Processor processes input correctly 1`] = `
+exports[`test/unit/yaml.mjs TAP YAML Unit Tests > Pre-Processor processes input correctly 1`] = `
 Object {
   "source": "export default {\\"Employees\\":[{\\"John Doe\\":{\\"job\\":\\"SWE\\",\\"skills\\":[\\"python\\",\\"java\\"]}},{\\"Jane Doe\\":{\\"job\\":\\"SWE\\",\\"skills\\":[\\"java\\",\\"python\\",\\"php\\"]}}]}",
 }

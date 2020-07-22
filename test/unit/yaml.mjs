@@ -1,23 +1,22 @@
+import tap from 'tap';
+
+
 import {testPreProcessorExports, batchTest} from '../test-utils.mjs';
 
-async function main() {
-  try {
-    let optionsYAML = {};
-    let preProcessorYAML = await import(
-      '../../examples/loaders/preprocessor-yaml.mjs'
-    );
 
-    await testPreProcessorExports(preProcessorYAML, optionsYAML);
+tap.test('YAML Unit Tests', async t => {
+  let optionsYAML = {};
+  let preProcessorYAML = await import(
+    '../../examples/loaders/preprocessor-yaml.mjs'
+  );
 
-    await batchTest(
-      preProcessorYAML,
-      optionsYAML,
-      ['test/fixtures/yamlExample.yaml'],
-      'Converts YAML to JSON correctly'
-    );
-  } catch (error) {
-    console.log(error);
-  }
-}
+  await testPreProcessorExports(preProcessorYAML, optionsYAML);
 
-main();
+  await batchTest(
+    t,
+    preProcessorYAML,
+    optionsYAML,
+    ['test/fixtures/yamlExample.yaml'],
+    'Converts YAML to JSON correctly'
+  );
+});

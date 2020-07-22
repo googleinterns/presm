@@ -50,20 +50,20 @@ export function testPreProcessorExports(preprocessor, options) {
  * Takes input files and asserts that they match output files after
  * being processed by the "processor"
  *
+ * @param t The TAP object, used to create sub-tests
  * @param processor A Pre- or Post- Processor object
  * @param options Options passed to the "process", see loaderconfig.mjs
  * @param inputs List of input source files to process
  */
-export async function batchTest(processor, options, inputs) {
+export async function batchTest(t, processor, options, inputs) {
   options = Array.isArray(options)
     ? options
     : Array(inputs.length).fill(options);
 
   let numTests = inputs.length;
 
-  assert.equal(
-    options.length,
-    numTests,
+  t.assert(
+    options.length === numTests,
     '# of options does not match # of tests'
   );
 
@@ -77,7 +77,7 @@ export async function batchTest(processor, options, inputs) {
       rawSource,
       urlToProcess
     );
-    tap.matchSnapshot(
+    t.matchSnapshot(
       processedOutput,
       `Pre-Processor processes input correctly`
     );
