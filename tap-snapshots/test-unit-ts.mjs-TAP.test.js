@@ -15,7 +15,7 @@ Object {
 exports[`test/unit/ts.mjs TAP > Pre-Processor processes input correctly 2`] = `
 Object {
   "extension": ".mjs",
-  "source": "import { dummy } from \\"/usr/local/google/home/jlondono/Documents/presm/test/fixtures/tsmodule1.ts\\";\\nconsole.log(dummy);\\n",
+  "source": "import { dummy } from \\"../fixtures/tsmodule1.ts\\";\\nconsole.log(dummy);\\n",
 }
 `
 
