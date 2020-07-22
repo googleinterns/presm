@@ -6,13 +6,13 @@
  */
 'use strict'
 exports[`test/system/yaml.mjs TAP > must match snapshot 1`] = `
-### Resolving resource in dummy resourceProvider for file:///YOUR_FS/presm/test/fixtures/yamlTest.mjs
+### Resolving resource in dummy resourceProvider for file:///{fs}/presm/test/fixtures/yamlTest.mjs
 
-### Getting resource in dummy resourceProvider for file:///YOUR_FS/presm/test/fixtures/yamlTest.mjs
+### Getting resource in dummy resourceProvider for file:///{fs}/presm/test/fixtures/yamlTest.mjs
 
 ### Resolving resource in dummy resourceProvider for ./yamlExample.yaml
 
-### Getting resource in dummy resourceProvider for file:///YOUR_FS/presm/test/fixtures/yamlExample.yaml
+### Getting resource in dummy resourceProvider for file:///{fs}/presm/test/fixtures/yamlExample.yaml
 
 This is my YAML file import
 { Employees: [ { 'John Doe': [Object] }, { 'Jane Doe': [Object] } ] }

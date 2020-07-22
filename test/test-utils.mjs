@@ -86,18 +86,11 @@ export async function batchTest(processor, options, inputs) {
   return;
 }
 
+const fsAbsolutePathRegex = new RegExp(process.cwd(), 'gm');
+
 // Changes file:///path/to/presm/...
-// to file:///YOUR_FS/presm/...
+// to file:///{fs}/presm/...
 export let cleanSnapshot = () =>
   (tap.cleanSnapshot = snapshot => {
-    return snapshot.replace(
-      /(for file:\/\/\/.+?(?=\/presm))|((for \/.+?(?=\/presm)))/gm,
-      substring => {
-        if (substring.includes('file')) {
-          return 'for file:///YOUR_FS';
-        } else {
-          return 'for /YOUR_FS';
-        }
-      }
-    );
+    return snapshot.replace(fsAbsolutePathRegex, '/{fs}/presm');
   });
