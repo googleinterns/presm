@@ -43,6 +43,8 @@ export async function getFormat(url, context, defaultGetFormat) {
     return {
       format: 'builtin',
     };
+  } else if (url.includes('node-spawn-wrap') || url.includes('node_modules')) {
+    return {format: 'commonjs'};
   }
   return {
     format: 'module',

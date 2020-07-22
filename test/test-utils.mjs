@@ -77,8 +77,27 @@ export async function batchTest(processor, options, inputs) {
       rawSource,
       urlToProcess
     );
-    tap.matchSnapshot(processedOutput, `Pre-Processor processes input correctly`);
+    tap.matchSnapshot(
+      processedOutput,
+      `Pre-Processor processes input correctly`
+    );
   }
 
   return;
 }
+
+// Changes file:///path/to/presm/...
+// to file:///YOUR_FS/presm/...
+export let cleanSnapshot = () =>
+  (tap.cleanSnapshot = snapshot => {
+    return snapshot.replace(
+      /(for file:\/\/\/.+?(?=\/presm))|((for \/.+?(?=\/presm)))/gm,
+      substring => {
+        if (substring.includes('file')) {
+          return 'for file:///YOUR_FS';
+        } else {
+          return 'for /YOUR_FS';
+        }
+      }
+    );
+  });
