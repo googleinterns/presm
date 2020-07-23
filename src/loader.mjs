@@ -37,7 +37,7 @@ let postProcessors = await Promise.all(
 
 export let resolve = resourceProviders[0].resolve;
 
-// Dummy getFormat, effectively eliminating this step
+// Basic getFormat
 export async function getFormat(url, context, defaultGetFormat) {
   if (url.startsWith('nodejs')) {
     return {

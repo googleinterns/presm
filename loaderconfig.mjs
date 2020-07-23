@@ -3,7 +3,7 @@ export default {
   outputPrefix: './dist',
   resourceProviders: [
     {
-      type: '../examples/loaders/resourceprovider-dummy-fs.mjs',
+      type: '../examples/loaders/resourceprovider-basic-fs.mjs',
       base: './src',
     },
   ],

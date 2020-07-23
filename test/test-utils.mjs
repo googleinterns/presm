@@ -56,19 +56,19 @@ export function testPreProcessorExports(preprocessor, options) {
  * @param inputs List of input source files to process
  */
 export async function batchTest(t, processor, options, inputs) {
-  options = Array.isArray(options)
+  const optionsList = Array.isArray(options)
     ? options
     : Array(inputs.length).fill(options);
 
   let numTests = inputs.length;
 
   t.assert(
-    options.length === numTests,
+    optionsList.length === numTests,
     '# of options does not match # of tests'
   );
 
   for (let testIdx = 0; testIdx < numTests; testIdx++) {
-    let processorInstance = processor.getPreProcessor(options[testIdx]);
+    let processorInstance = processor.getPreProcessor(optionsList[testIdx]);
 
     let rawSource = await pathToRawSource(inputs[testIdx]);
 

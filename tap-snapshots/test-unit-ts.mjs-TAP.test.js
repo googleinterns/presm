@@ -8,27 +8,27 @@
 exports[`test/unit/ts.mjs TAP TS Unit Tests > Pre-Processor processes input correctly 1`] = `
 Object {
   "extension": ".mjs",
-  "source": "export const dummy = 42;\\nexport const dummy2 = [42, 42, 42];\\n",
+  "source": "export const placeholder = 42;\\nexport const placeholder2 = [42, 42, 42];\\n",
 }
 `
 
 exports[`test/unit/ts.mjs TAP TS Unit Tests > Pre-Processor processes input correctly 2`] = `
 Object {
   "extension": ".mjs",
-  "source": "import { dummy } from \\"../fixtures/tsmodule1.ts\\";\\nconsole.log(dummy);\\n",
+  "source": "import { placeholder } from \\"../fixtures/tsmodule1.ts\\";\\nconsole.log(placeholder);\\n",
 }
 `
 
 exports[`test/unit/ts.mjs TAP TS Unit Tests > Pre-Processor processes input correctly 3`] = `
 Object {
   "extension": ".mjs",
-  "source": "\\"use strict\\";\\nObject.defineProperty(exports, \\"__esModule\\", { value: true });\\nexports.dummy2 = exports.dummy = void 0;\\nexports.dummy = 42;\\nexports.dummy2 = [42, 42, 42];\\n",
+  "source": "\\"use strict\\";\\nObject.defineProperty(exports, \\"__esModule\\", { value: true });\\nexports.placeholder2 = exports.placeholder = void 0;\\nexports.placeholder = 42;\\nexports.placeholder2 = [42, 42, 42];\\n",
 }
 `
 
 exports[`test/unit/ts.mjs TAP TS Unit Tests > Pre-Processor processes input correctly 4`] = `
 Object {
   "extension": ".mjs",
-  "source": "export const dummy = 42;\\nexport const dummy2 = [42, 42, 42];\\nconsole.log(dummy);\\nconsole.log(dummy2);\\n",
+  "source": "export const placeholder = 42;\\nexport const placeholder2 = [42, 42, 42];\\nconsole.log(placeholder);\\nconsole.log(placeholder2);\\n",
 }
 `

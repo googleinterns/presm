@@ -1,3 +1,3 @@
-import {dummy} from './tsmodule1';
+import {placeholder} from './tsmodule1';
 
-console.log(dummy);
+console.log(placeholder);

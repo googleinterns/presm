@@ -30,11 +30,11 @@ test('YAML Loader: Import YAML File', async (t: any) => {
 test('Import resolution tests', async (t: any) => {
   t.plan(2);
 
-  let {dummy} = await import('./fixtures/tsmodule1');
-  t.equal(dummy, 42);
+  let {placeholder} = await import('./fixtures/tsmodule1');
+  t.equal(placeholder, 42);
 
-  let {dummy2} = await import('./fixtures/tsmodule1.js');
-  t.equal(dummy2, 42);
+  let {placeholder2} = await import('./fixtures/tsmodule1.js');
+  t.equal(placeholder2, 42);
 });
 
 test('Sample calc app tests', (t: any) => {
