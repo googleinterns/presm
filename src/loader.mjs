@@ -1,19 +1,22 @@
-import config from '../loaderconfig.mjs';
-import {isWrappedModule} from './utils.mjs';
+import dotenv from 'dotenv';
+dotenv.config();
+
+import {isWrappedModule, pathToRawSource} from './utils.mjs';
+const config = JSON.parse(await pathToRawSource(process.env.LOADER_CONFIG));
 
 // Load all resourceProviders, preProcessors, and postProcessors as specified in config file
 
-let resourceProviders = await Promise.all(
+const resourceProviders = await Promise.all(
   config.resourceProviders.map((resourceProvider, i) =>
     import(resourceProvider.type)
   )
 );
 
-let preProcessors = await Promise.all(
+const preProcessors = await Promise.all(
   config.preProcessors.map(
     (preProcessor, i) =>
       new Promise(async (resolve, reject) => {
-        let module = await import(preProcessor.name);
+        const module = await import(preProcessor.name);
         resolve({
           module: module,
           options: preProcessor.options,
@@ -22,11 +25,11 @@ let preProcessors = await Promise.all(
   )
 );
 
-let postProcessors = await Promise.all(
+const postProcessors = await Promise.all(
   config.postProcessors.map(
     (postProcessor, i) =>
       new Promise(async (resolve, reject) => {
-        let module = await import(postProcessor.name);
+        const module = await import(postProcessor.name);
         resolve({
           module: module,
           options: postProcessor.options,
@@ -35,14 +38,16 @@ let postProcessors = await Promise.all(
   )
 );
 
-export let resolve = resourceProviders[0].resolve;
+export const resolve = resourceProviders[0].resolve;
 
-// Dummy getFormat, effectively eliminating this step
+// Basic getFormat
 export async function getFormat(url, context, defaultGetFormat) {
   if (url.startsWith('nodejs')) {
     return {
       format: 'builtin',
     };
+  } else if (url.includes('node-spawn-wrap') || url.includes('node_modules')) {
+    return {format: 'commonjs'};
   }
   return {
     format: 'module',
@@ -59,7 +64,7 @@ export async function getSource(url, context, defaultGetSource) {
   // Get source using any resouce preovider that accepts this type of URL ("file:")
   for (const resourceProvider of resourceProviders) {
     if (resourceProvider.prefixes.some(prefix => url.startsWith(prefix))) {
-      let resourceProviderInstance = resourceProvider.getResourceProvider();
+      const resourceProviderInstance = resourceProvider.getResourceProvider();
       source = await resourceProviderInstance.getResource(url);
       break;
     }
@@ -70,7 +75,7 @@ export async function getSource(url, context, defaultGetSource) {
     if (
       preProcessor.module.sourceExtensionTypes.some(ext => url.endsWith(ext))
     ) {
-      let preProcessorInstance = preProcessor.module.getPreProcessor(
+      const preProcessorInstance = preProcessor.module.getPreProcessor(
         preProcessor.options
       );
       source = (await preProcessorInstance.process(source, url)).source;
@@ -88,7 +93,7 @@ export async function getSource(url, context, defaultGetSource) {
       postProcessor.module.sourceFormatTypes.includes(format) &&
       !sourceIsWrappedModule
     ) {
-      let postProcessorInstance = postProcessor.module.getPostProcessor();
+      const postProcessorInstance = postProcessor.module.getPostProcessor();
       source = (await postProcessorInstance.process(source)).source;
     }
   }

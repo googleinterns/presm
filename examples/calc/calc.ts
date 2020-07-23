@@ -1,20 +1,17 @@
 import {opsList, opsSymbolsList} from './ops';
 
- 
-interface ArgvType {
+interface Argv {
   [x: string]: string[];
 }
 
-export function calc(argv: argvType): string {
+export function calc(argv: Argv): string {
   let chosenOpString = '';
   let chosenOpSymbol = '';
 
   if (
     Object.keys(opsList).some((op, i) =>
       op in argv
-        ? ((chosenOpString = op),
-          (chosenOpSymbol = opsSymbolsList[i]),
-          true)
+        ? ((chosenOpString = op), (chosenOpSymbol = opsSymbolsList[i]), true)
         : false
     )
   ) {
