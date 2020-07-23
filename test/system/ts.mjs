@@ -9,19 +9,37 @@ cleanSnapshot();
 const execFile = promisify(child.execFile);
 
 tap.test('TS System Tests', async t => {
-  let {stdout, stderr} = await execFile('node', [
-    '--experimental-top-level-await',
-    '--experimental-loader=./src/loader.mjs',
-    'test/fixtures/tsmodule4.ts',
-  ]);
+  let {stdout, stderr} = await execFile(
+    'node',
+    [
+      '--experimental-top-level-await',
+      '--experimental-loader=./src/loader.mjs',
+      'test/fixtures/tsmodule4.ts',
+    ],
+    {
+      env: {
+        ...process.env,
+        LOADER_CONFIG: './test/fixtures/loaderconfig1.json',
+      },
+    }
+  );
 
   tap.matchSnapshot(stdout);
 
-  ({stdout, stderr} = await execFile('node', [
-    '--experimental-top-level-await',
-    '--experimental-loader=./src/loader.mjs',
-    'test/fixtures/tsmodule2.ts',
-  ]));
+  ({stdout, stderr} = await execFile(
+    'node',
+    [
+      '--experimental-top-level-await',
+      '--experimental-loader=./src/loader.mjs',
+      'test/fixtures/tsmodule2.ts',
+    ],
+    {
+      env: {
+        ...process.env,
+        LOADER_CONFIG: './test/fixtures/loaderconfig1.json',
+      },
+    }
+  ));
 
   tap.matchSnapshot(stdout);
 });

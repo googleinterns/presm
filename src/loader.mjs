@@ -1,5 +1,8 @@
-import config from '../loaderconfig.mjs';
-import {isWrappedModule} from './utils.mjs';
+import dotenv from 'dotenv';
+dotenv.config();
+
+import {isWrappedModule, pathToRawSource} from './utils.mjs';
+const config = JSON.parse(await pathToRawSource(process.env.LOADER_CONFIG));
 
 // Load all resourceProviders, preProcessors, and postProcessors as specified in config file
 
