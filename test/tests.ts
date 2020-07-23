@@ -16,7 +16,7 @@ import testYAMLFile2 from './fixtures/yamlExample.yml';
 test('YAML Loader: Import YAML File', async (t: any) => {
   t.plan(2);
 
-  let truthYAMLFile = {
+  const truthYAMLFile = {
     Employees: [
       {'John Doe': {job: 'SWE', skills: ['python', 'java']}},
       {'Jane Doe': {job: 'SWE', skills: ['java', 'python', 'php']}},
@@ -30,10 +30,10 @@ test('YAML Loader: Import YAML File', async (t: any) => {
 test('Import resolution tests', async (t: any) => {
   t.plan(2);
 
-  let {placeholder} = await import('./fixtures/tsmodule1');
+  const {placeholder} = await import('./fixtures/tsmodule1');
   t.equal(placeholder, 42);
 
-  let {placeholder2} = await import('./fixtures/tsmodule1.js');
+  const {placeholder2} = await import('./fixtures/tsmodule1.js');
   t.equal(placeholder2, 42);
 });
 

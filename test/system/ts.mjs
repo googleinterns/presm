@@ -24,7 +24,7 @@ tap.test('TS System Tests', async t => {
     }
   );
 
-  tap.matchSnapshot(stdout);
+  t.matchSnapshot(stdout);
 
   ({stdout, stderr} = await execFile(
     'node',
@@ -41,5 +41,5 @@ tap.test('TS System Tests', async t => {
     }
   ));
 
-  tap.matchSnapshot(stdout);
+  t.matchSnapshot(stdout);
 });

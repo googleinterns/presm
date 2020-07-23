@@ -1,12 +1,10 @@
 import tap from 'tap';
 
-
 import {testPreProcessorExports, batchTest} from '../test-utils.mjs';
 
-
 tap.test('YAML Unit Tests', async t => {
-  let optionsYAML = {};
-  let preProcessorYAML = await import(
+  const optionsYAML = {};
+  const preProcessorYAML = await import(
     '../../examples/loaders/preprocessor-yaml.mjs'
   );
 

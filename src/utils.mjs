@@ -15,6 +15,6 @@ export function isWrappedModule(extensions) {
 }
 
 export async function pathToRawSource(absPath) {
-  let fileURL = url.pathToFileURL(absPath);
+  const fileURL = url.pathToFileURL(absPath);
   return fs.readFile(new URL(fileURL), 'utf8');
 }

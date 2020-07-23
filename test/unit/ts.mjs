@@ -5,7 +5,7 @@ import {testPreProcessorExports, batchTest} from '../test-utils.mjs';
 import ts from 'typescript';
 
 tap.test('TS Unit Tests', async t => {
-  let tsOptionsList = [
+  const tsOptionsList = [
     {
       compilerOptions: {
         target: 'esnext',
@@ -32,7 +32,7 @@ tap.test('TS Unit Tests', async t => {
     },
   ];
 
-  let preProcessorTypeScript = await import(
+  const preProcessorTypeScript = await import(
     '../../examples/loaders/preprocessor-typescript.mjs'
   );
 

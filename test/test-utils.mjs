@@ -1,10 +1,9 @@
 import {promises as fs} from 'fs';
 import url from 'url';
-import assert from 'assert';
 import tap from 'tap';
 
 export async function pathToRawSource(absPath) {
-  let fileURL = url.pathToFileURL(absPath);
+  const fileURL = url.pathToFileURL(absPath);
   return fs.readFile(new URL(fileURL), 'utf8');
 }
 
@@ -34,7 +33,7 @@ export function testPreProcessorExports(preprocessor, options) {
     'Exports getPreProcessor'
   );
 
-  let preprocessorInstance = preprocessor.getPreProcessor(options);
+  const preprocessorInstance = preprocessor.getPreProcessor(options);
   tap.has(
     preprocessorInstance,
     {
@@ -60,7 +59,7 @@ export async function batchTest(t, processor, options, inputs) {
     ? options
     : Array(inputs.length).fill(options);
 
-  let numTests = inputs.length;
+  const numTests = inputs.length;
 
   t.assert(
     optionsList.length === numTests,
@@ -68,19 +67,16 @@ export async function batchTest(t, processor, options, inputs) {
   );
 
   for (let testIdx = 0; testIdx < numTests; testIdx++) {
-    let processorInstance = processor.getPreProcessor(optionsList[testIdx]);
+    const processorInstance = processor.getPreProcessor(optionsList[testIdx]);
 
-    let rawSource = await pathToRawSource(inputs[testIdx]);
+    const rawSource = await pathToRawSource(inputs[testIdx]);
 
-    let urlToProcess = url.pathToFileURL(inputs[testIdx]).toString();
-    let processedOutput = await processorInstance.process(
+    const urlToProcess = url.pathToFileURL(inputs[testIdx]).toString();
+    const processedOutput = await processorInstance.process(
       rawSource,
       urlToProcess
     );
-    t.matchSnapshot(
-      processedOutput,
-      `Pre-Processor processes input correctly`
-    );
+    t.matchSnapshot(processedOutput, `Pre-Processor processes input correctly`);
   }
 
   return;
@@ -90,7 +86,7 @@ const fsAbsolutePathRegex = new RegExp(process.cwd(), 'gm');
 
 // Changes file:///path/to/presm/...
 // to file:///{fs}/presm/...
-export let cleanSnapshot = () =>
+export const cleanSnapshot = () =>
   (tap.cleanSnapshot = snapshot => {
     return snapshot.replace(fsAbsolutePathRegex, '/{fs}/presm');
   });

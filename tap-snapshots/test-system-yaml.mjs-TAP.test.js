@@ -5,7 +5,7 @@
  * Make sure to inspect the output below.  Do not ignore changes!
  */
 'use strict'
-exports[`test/system/yaml.mjs TAP > must match snapshot 1`] = `
+exports[`test/system/yaml.mjs TAP YAML System Tests > must match snapshot 1`] = `
 ### Resolving resource in basic resourceProvider for file:///{fs}/presm/test/fixtures/yamlTest.mjs
 
 ### Getting resource in basic resourceProvider for file:///{fs}/presm/test/fixtures/yamlTest.mjs

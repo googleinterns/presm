@@ -5,7 +5,7 @@
  * Make sure to inspect the output below.  Do not ignore changes!
  */
 'use strict'
-exports[`test/system/ts.mjs TAP > must match snapshot 1`] = `
+exports[`test/system/ts.mjs TAP TS System Tests > must match snapshot 1`] = `
 ### Resolving resource in basic resourceProvider for file:///{fs}/presm/test/fixtures/tsmodule4.ts
 
 ### Getting resource in basic resourceProvider for file:///{fs}/presm/test/fixtures/tsmodule4.ts
@@ -16,7 +16,7 @@ This line was added by a post processor!!
 
 `
 
-exports[`test/system/ts.mjs TAP > must match snapshot 2`] = `
+exports[`test/system/ts.mjs TAP TS System Tests > must match snapshot 2`] = `
 ### Resolving resource in basic resourceProvider for file:///{fs}/presm/test/fixtures/tsmodule2.ts
 
 ### Getting resource in basic resourceProvider for file:///{fs}/presm/test/fixtures/tsmodule2.ts

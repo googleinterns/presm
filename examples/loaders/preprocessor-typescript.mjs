@@ -1,8 +1,8 @@
 import ts from 'typescript';
 
-export let sourceExtensionTypes = ['.ts', '.tsx'];
+export const sourceExtensionTypes = ['.ts', '.tsx'];
 
-export let outputExtensionTypes = ['.mjs', '.cjs'];
+export const outputExtensionTypes = ['.mjs', '.cjs'];
 
 export function getPreProcessor(configOptions = {}) {
   return {
@@ -10,12 +10,12 @@ export function getPreProcessor(configOptions = {}) {
       // Return new, resolved specifier using ts-specific
       // logic if one exists; undefined otherwise
       function getNewSpecifier(oldSpecifier) {
-        let moduleResolutionHost = {
+        const moduleResolutionHost = {
           fileExists: fileName => {
             return ts.sys.fileExists(fileName);
           },
         };
-        let resolvedModule = ts.resolveModuleName(
+        const resolvedModule = ts.resolveModuleName(
           oldSpecifier,
           url.replace('file://', ''),
           configOptions.compilerOptions || {},
@@ -30,8 +30,8 @@ export function getPreProcessor(configOptions = {}) {
         return context => {
           function visit(node, inImportExpression) {
             if (inImportExpression && ts.isStringLiteral(node)) {
-              let oldSpecifier = node.text;
-              let newSpecifier = getNewSpecifier(oldSpecifier);
+              const oldSpecifier = node.text;
+              const newSpecifier = getNewSpecifier(oldSpecifier);
               if (newSpecifier) {
                 return ts.createStringLiteral(newSpecifier);
               }

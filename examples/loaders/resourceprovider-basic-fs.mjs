@@ -1,8 +1,8 @@
 import {promises as fs} from 'fs';
 
-export let prefixes = ['file:'];
+export const prefixes = ['file:'];
 
-export let suffixes = [];
+export const suffixes = [];
 
 // Following was adapted from the example in the Node.js docs
 // https://nodejs.org/api/esm.html#esm_code_resolve_code_hook

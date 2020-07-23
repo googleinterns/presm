@@ -1,8 +1,8 @@
 import thing from 'module';
 
-export let sourceExtensionTypes: string[] = ['.ts', '.tsx'];
+export const sourceExtensionTypes: string[] = ['.ts', '.tsx'];
 
-export let outputExtensionTypes: string[] = ['.mjs', '.cjs'];
+export const outputExtensionTypes: string[] = ['.mjs', '.cjs'];
 
 // Example of defining "options" for a TypeScript loader
 export interface BabelOptions {
