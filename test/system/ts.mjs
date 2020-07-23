@@ -9,7 +9,7 @@ cleanSnapshot();
 const execFile = promisify(child.execFile);
 
 tap.test('TS System Tests', async t => {
-  let {stdout, stderr} = await execFile(
+  let {stdout} = await execFile(
     'node',
     [
       '--experimental-top-level-await',
@@ -26,7 +26,7 @@ tap.test('TS System Tests', async t => {
 
   t.matchSnapshot(stdout);
 
-  ({stdout, stderr} = await execFile(
+  ({stdout} = await execFile(
     'node',
     [
       '--experimental-top-level-await',

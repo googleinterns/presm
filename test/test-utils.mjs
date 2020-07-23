@@ -76,7 +76,7 @@ export async function batchTest(t, processor, options, inputs) {
       rawSource,
       urlToProcess
     );
-    t.matchSnapshot(processedOutput, `Pre-Processor processes input correctly`);
+    t.matchSnapshot(processedOutput, 'Pre-Processor processes input correctly');
   }
 
   return;

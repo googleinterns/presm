@@ -10,7 +10,7 @@ cleanSnapshot();
 tap.test('YAML System Tests', async t => {
   const execFile = promisify(child.execFile);
 
-  const {stdout, stderr} = await execFile('node', [
+  const {stdout} = await execFile('node', [
     '--experimental-top-level-await',
     '--experimental-loader=./src/loader.mjs',
     'test/fixtures/yamlTest.mjs',

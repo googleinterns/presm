@@ -7,7 +7,10 @@ import {calc} from '../examples/calc/calc';
 
 const {argv} = loadViaRequire('yargs').config({});
 
-import {modifyTestArgv, createCorrectOutput} from '../examples/calc/test_functions';
+import {
+  modifyTestArgv,
+  createCorrectOutput,
+} from '../examples/calc/test_functions';
 
 // Imports for tests
 import testYAMLFile1 from './fixtures/yamlExample.yaml';

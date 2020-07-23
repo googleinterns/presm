@@ -21,8 +21,8 @@
     "node": ">=12.2.0"
   },
   "scripts": {
-    "lint": "eslint . --ext .mjs --ext .ts",
-    "lint-fix": "eslint . --ext .mjs --ext .ts --fix",
+    "lint": "eslint . --ext .mjs --ext .ts --ext .js",
+    "lint-fix": "eslint . --ext .mjs --ext .ts --ext .js --fix",
     "check": "gts check",
     "clean": "gts clean",
     "compile": "tsc",

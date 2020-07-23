@@ -1,6 +1,6 @@
 export const sourceFormatTypes = ['module'];
 
-export function getPostProcessor(options = {}) {
+export function getPostProcessor() {
   return {
     async process(source) {
       return {

@@ -15,7 +15,7 @@ interface ProcessedFile {
 }
 
 interface postProcessorInstance {
-  process: Function;
+  process: (source: string) => ProcessedFile;
 }
 
 export function getPreprocessor(

@@ -1,4 +1,9 @@
-export function modifyTestArgv(argv: any, op: string, a: number, b: number) {
+export function modifyTestArgv(
+  argv: any,
+  op: string,
+  a: number,
+  b: number
+): void {
   delete argv.add;
   delete argv.sub;
   delete argv.div;
