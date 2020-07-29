@@ -8,10 +8,11 @@
     "@types/yargs": "^15.0.5",
     "@typescript-eslint/eslint-plugin": "^3.2.0",
     "@typescript-eslint/parser": "^3.2.0",
+    "dotenv": "^8.2.0",
     "eslint": "^7.2.0",
     "gts": "^2.0.2",
     "prettier": "^2.0.5",
-    "tape": "^5.0.1",
+    "tap": "^14.10.7",
     "typescript": "^3.9.5",
     "yaml": "^1.10.0",
     "yargs": "^15.3.1"
@@ -20,12 +21,17 @@
     "node": ">=12.2.0"
   },
   "scripts": {
-    "lint": "eslint . --ext .ts",
-    "lint-fix": "eslint . --ext .ts --fix",
+    "lint": "eslint . --ext .mjs --ext .ts --ext .js",
+    "lint-fix": "eslint . --ext .mjs --ext .ts --ext .js --fix",
     "check": "gts check",
     "clean": "gts clean",
     "compile": "tsc",
     "fix": "gts fix",
-    "test": "node --experimental-top-level-await --experimental-loader ./src/loader.mjs ../presm/examples/tests/tests.mjs"
+    "test": "npm run test-unit && npm run test-system",
+    "test-snapshot": "npm run test-snapshot-unit && npm run test-snapshot-system",
+    "test-unit": "tap --no-coverage ./test/unit/",
+    "test-system": "tap --no-coverage ./test/system/",
+    "test-snapshot-unit": "tap --no-coverage --snapshot ./test/unit/",
+    "test-snapshot-system": "tap --no-coverage --snapshot ./test/system/"
   }
 }

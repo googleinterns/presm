@@ -14,15 +14,17 @@ function div(a: number, b: number): number {
   return a / b;
 }
 
-export const ops_list: { [x: string]: (a: number, b: number) => number } = {
+// Maps a string to a function that takes
+// in numbers and returns a number
+interface operationsFunctionsList {
+  [x: string]: (a: number, b: number) => number;
+}
+
+export const opsList: operationsFunctionsList = {
   add: add,
   sub: sub,
   mult: mult,
   div: div,
 };
 
-export const ops_symbols_list: string[] = ['+', '-', '*', '/'];
-
-export interface argvType {
-  [x: string]: string[];
-}
+export const opsSymbolsList: string[] = ['+', '-', '*', '/'];

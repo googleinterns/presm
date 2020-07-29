@@ -1,4 +1,9 @@
-export function modifyTestArgv(argv: any, op: string, a: number, b: number) {
+export function modifyTestArgv(
+  argv: any,
+  op: string,
+  a: number,
+  b: number
+): void {
   delete argv.add;
   delete argv.sub;
   delete argv.div;
@@ -9,10 +14,10 @@ export function modifyTestArgv(argv: any, op: string, a: number, b: number) {
 
 export function createCorrectOutput(
   op: string,
-  op_symbol: string,
+  opSymbol: string,
   a: number,
   b: number,
   res: number | string
 ): string {
-  return `${op} ${a}${op_symbol}${b} = ${res}`;
+  return `${op} ${a}${opSymbol}${b} = ${res}`;
 }

@@ -1,7 +1,7 @@
-import { createRequire } from 'module';
+import {createRequire} from 'module';
 const loadViaRequire = createRequire(import.meta.url);
 
-const { argv } = loadViaRequire('yargs')
+const {argv} = loadViaRequire('yargs')
   .alias('a', 'add')
   .array('a')
   .alias('s', 'sub')
@@ -11,6 +11,6 @@ const { argv } = loadViaRequire('yargs')
   .alias('d', 'div')
   .array('d');
 
-import { calc } from './calc.ts';
+import {calc} from './calc.js';
 
 console.log(calc(argv));
