@@ -10,11 +10,20 @@ cleanSnapshot();
 tap.test('YAML System Tests', async t => {
   const execFile = promisify(child.execFile);
 
-  const {stdout} = await execFile('node', [
-    '--experimental-top-level-await',
-    '--experimental-loader=./src/loader.mjs',
-    'test/fixtures/yamlTest.mjs',
-  ]);
+  const {stdout} = await execFile(
+    'node',
+    [
+      '--experimental-top-level-await',
+      '--experimental-loader=./src/loader.mjs',
+      'test/fixtures/yamlTest.mjs',
+    ],
+    {
+      env: {
+        ...process.env,
+        LOADER_CONFIG: './test/fixtures/loaderconfig1.json',
+      },
+    }
+  );
 
   t.matchSnapshot(stdout);
 });
