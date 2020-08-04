@@ -4,6 +4,20 @@ dotenv.config();
 import {isWrappedModule, pathToRawSource} from './utils.mjs';
 const config = JSON.parse(await pathToRawSource(process.env.LOADER_CONFIG));
 
+// The following is a placeholder for PRESM's
+// [build] mode, which writes output files
+import {promisify} from 'util';
+import * as child from 'child_process';
+
+const execFile = promisify(child.execFile);
+const buildProcessPlaceholder = 'test/fixtures/buildModePlaceholder.mjs';
+
+if (process.argv.pop() === '--build') {
+  execFile('node', [buildProcessPlaceholder]);
+}
+
+// Otherwise, execute [on-the-fly]
+
 // Load all resourceProviders, preProcessors, and postProcessors as specified in config file
 
 const resourceProviders = await Promise.all(

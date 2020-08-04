@@ -5,6 +5,11 @@
  * Make sure to inspect the output below.  Do not ignore changes!
  */
 'use strict'
+exports[`test/system/ts.mjs TAP TS System Tests > Built files execute correctly 1`] = `
+TS target 7
+
+`
+
 exports[`test/system/ts.mjs TAP TS System Tests > must match snapshot 1`] = `
 ### Resolving resource in basic resourceProvider for file:///{fs}/presm/test/fixtures/tsmodule4.ts
 
