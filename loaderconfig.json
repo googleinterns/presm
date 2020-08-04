@@ -1,5 +1,6 @@
 {
-  "outputPrefix": "dist",
+  "inputDir": "examples/calc",
+  "outputDir": "dist",
   "resourceProviders": [
     {
       "type": "../examples/loaders/resourceprovider-basic-fs.mjs",

@@ -1,56 +1,8 @@
-import dotenv from 'dotenv';
-dotenv.config();
+import {isWrappedModule} from './utils.mjs';
 
-import {isWrappedModule, pathToRawSource} from './utils.mjs';
-const config = JSON.parse(await pathToRawSource(process.env.LOADER_CONFIG));
-
-// The following is a placeholder for PRESM's
-// [build] mode, which writes output files
-import {promisify} from 'util';
-import * as child from 'child_process';
-
-const execFile = promisify(child.execFile);
-const buildProcessPlaceholder = 'test/fixtures/buildModePlaceholder.mjs';
-
-if (process.argv.pop() === '--build') {
-  execFile('node', [buildProcessPlaceholder]);
-}
-
-// Otherwise, execute [on-the-fly]
+import {resourceProviders, preProcessors, postProcessors} from './core.mjs';
 
 // Load all resourceProviders, preProcessors, and postProcessors as specified in config file
-
-const resourceProviders = await Promise.all(
-  config.resourceProviders.map((resourceProvider, i) =>
-    import(resourceProvider.type)
-  )
-);
-
-const preProcessors = await Promise.all(
-  config.preProcessors.map(
-    (preProcessor, i) =>
-      new Promise(async (resolve, reject) => {
-        const module = await import(preProcessor.name);
-        resolve({
-          module: module,
-          options: preProcessor.options,
-        });
-      })
-  )
-);
-
-const postProcessors = await Promise.all(
-  config.postProcessors.map(
-    (postProcessor, i) =>
-      new Promise(async (resolve, reject) => {
-        const module = await import(postProcessor.name);
-        resolve({
-          module: module,
-          options: postProcessor.options,
-        });
-      })
-  )
-);
 
 export const resolve = resourceProviders[0].resolve;
 
