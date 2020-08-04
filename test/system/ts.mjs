@@ -44,36 +44,4 @@ tap.test('TS System Tests', {saveFixture: true}, async t => {
   ));
 
   t.matchSnapshot(stdout);
-
-  // The following uses a placeholder build file to simulate using
-  // PRESM with a build flag
-  const buildPath = './dist/test.mjs';
-
-  ({stdout} = await execFile(
-    'node',
-    [
-      '--experimental-top-level-await',
-      '--experimental-loader=./src/loader.mjs',
-      'test/fixtures/noop.js',
-      '--build',
-    ],
-    {
-      env: {
-        ...process.env,
-        LOADER_CONFIG: './test/fixtures/loaderconfig1.json',
-      },
-    }
-  ));
-
-  // Confirm that files were written
-  t.resolves(fs.access(buildPath), 'Build step writes files');
-
-  ({stdout} = await execFile('node', [buildPath], {
-    env: {
-      ...process.env,
-      LOADER_CONFIG: './test/fixtures/loaderconfig1.json',
-    },
-  }));
-
-  t.matchSnapshot(stdout, 'Built files execute correctly');
 });
