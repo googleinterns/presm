@@ -1,8 +1,6 @@
 import tap from 'tap';
 import * as child from 'child_process';
 
-import {promises as fs} from 'fs';
-
 import {cleanSnapshot} from '../test-utils.mjs';
 
 import {promisify} from 'util';
@@ -10,7 +8,7 @@ import {promisify} from 'util';
 cleanSnapshot();
 const execFile = promisify(child.execFile);
 
-tap.test('TS System Tests', {saveFixture: true}, async t => {
+tap.test('TS System Tests', async t => {
   let {stdout} = await execFile(
     'node',
     [
