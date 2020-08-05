@@ -6,9 +6,10 @@ import {config} from './core.mjs';
 
 import {getSource} from './loader.mjs';
 
-console.log(process.env.hi);
+// Returns list of [output Tree fileURL, source]
+export async function generateBuildMap() {
+  let buildMap = [];
 
-export async function build() {
   async function iterateDir(inputDirString) {
     // Create output dir
     const outputDirString = path.join(config.outputDir, inputDirString);
@@ -19,17 +20,18 @@ export async function build() {
     }
 
     // Build for all files in the `inputDir`
-    fs.readdir(inputDirString, async (err, files) => {
-      if (err) {
-        return console.log(err);
-      }
-      files.forEach(async file => {
+    const files = await fs.promises.readdir(inputDirString);
+    await Promise.all(
+      files.map(async file => {
         const inputFileURL = url.pathToFileURL(path.join(inputDirString, file));
 
         const fileIsDir = fs.lstatSync(inputFileURL).isDirectory();
 
         if (fileIsDir) {
-          iterateDir(path.join(inputDirString, file));
+          // Merge sub-directory buildMap
+          buildMap = buildMap.concat(
+            await iterateDir(path.join(inputDirString, file))
+          );
         } else {
           const outputFileURL = url.pathToFileURL(
             path.join(config.outputDir, inputDirString, file)
@@ -41,14 +43,28 @@ export async function build() {
             {format: 'module'},
             () => {}
           );
-
-          await fs.promises.writeFile(outputFileURL, source, 'utf8');
+          buildMap.push([outputFileURL, source]);
         }
-      });
-    });
+      })
+    );
+
+    return buildMap;
   }
 
-  await iterateDir(config.inputDir);
+  return await iterateDir(config.inputDir);
+}
+
+export async function writeBuildMap(buildMap) {
+  await Promise.all(
+    buildMap.map(async ([outputFileURL, source]) => {
+      fs.promises.writeFile(outputFileURL, source, 'utf8');
+    })
+  );
+}
+
+async function build() {
+  const buildMap = await generateBuildMap();
+  await writeBuildMap(buildMap);
 }
 
 build();
