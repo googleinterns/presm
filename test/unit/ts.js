@@ -1,6 +1,6 @@
 import tap from 'tap';
 
-import {testPreProcessorExports, batchTest} from '../test-utils.mjs';
+import {testPreProcessorExports, batchTest} from '../test-utils.js';
 
 import ts from 'typescript';
 
@@ -34,7 +34,7 @@ tap.test('TS Unit Tests', async t => {
   ];
 
   const preProcessorTypeScript = await import(
-    '../../examples/loaders/preprocessor-typescript.mjs'
+    '../../examples/loaders/preprocessor-typescript.js'
   );
 
   await testPreProcessorExports(preProcessorTypeScript, tsOptionsList[0]);

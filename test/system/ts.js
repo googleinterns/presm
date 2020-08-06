@@ -1,7 +1,7 @@
 import tap from 'tap';
 import * as child from 'child_process';
 
-import {cleanSnapshot} from '../test-utils.mjs';
+import {cleanSnapshot} from '../test-utils.js';
 
 import {promisify} from 'util';
 

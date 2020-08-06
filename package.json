@@ -20,6 +20,7 @@
   "engines": {
     "node": ">=12.2.0"
   },
+  "type": "module",
   "scripts": {
     "lint": "eslint . --ext .mjs --ext .ts --ext .js",
     "lint-fix": "eslint . --ext .mjs --ext .ts --ext .js --fix",

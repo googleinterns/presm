@@ -1,7 +1,7 @@
 import tap from 'tap';
 import * as child from 'child_process';
 
-import {cleanSnapshot} from '../test-utils.mjs';
+import {cleanSnapshot} from '../test-utils.js';
 
 import {promisify} from 'util';
 
@@ -15,7 +15,7 @@ tap.test('YAML System Tests', async t => {
     [
       '--experimental-top-level-await',
       '--experimental-loader=./src/loader.js',
-      'test/fixtures/yamlTest.mjs',
+      'test/fixtures/yamlTest.js',
     ],
     {
       env: {
