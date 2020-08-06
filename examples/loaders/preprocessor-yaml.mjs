@@ -1,4 +1,4 @@
-import {moduleWrapper} from '../../src/utils.mjs';
+import {moduleWrapper} from '../../src/utils.js';
 
 import yaml from 'yaml';
 

@@ -14,7 +14,7 @@ tap.test('YAML System Tests', async t => {
     'node',
     [
       '--experimental-top-level-await',
-      '--experimental-loader=./src/loader.mjs',
+      '--experimental-loader=./src/loader.js',
       'test/fixtures/yamlTest.mjs',
     ],
     {

@@ -1,7 +1,7 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
-import {pathToRawSource} from './utils.mjs';
+import {pathToRawSource} from './utils.js';
 export const config = JSON.parse(await pathToRawSource(process.env.LOADER_CONFIG));
 
 // Load all resourceProviders, preProcessors, and postProcessors as specified in config file
