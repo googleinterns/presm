@@ -51,6 +51,11 @@ tap.test('TS Unit Tests', async t => {
     'test/fixtures/tsmodule4.ts',
   ]);
 
+  //TS Build Tests
+  // - simple transpilation
+  // - bare specifier transpilation
+  // relative imports transpilation
+
   let config = (await import('../../src/core.js')).getConfig(
     './test/fixtures/loaderconfig2.json'
   );
@@ -60,11 +65,38 @@ tap.test('TS Unit Tests', async t => {
   let buildMap = await generateBuildMap(config);
   t.matchSnapshot(
     buildMap.map(fileSourcePair => fileSourcePair[0].href),
-    'TS Build Tree contains correct output tree file names'
+    '[TS Build - Basic] Correct output tree file names'
   );
   t.matchSnapshot(
     buildMap.map(fileSourcePair => fileSourcePair[1]),
-    'TS Build Tree contains correct output source'
+    '[TS Build - Basic] Correct output source code'
   );
 
+  config = (await import('../../src/core.js')).getConfig(
+    './test/fixtures/loaderconfig3.json'
+  );
+
+  buildMap = await generateBuildMap(config);
+  t.matchSnapshot(
+    buildMap.map(fileSourcePair => fileSourcePair[0].href),
+    '[TS Build - Bare Imports] Correct output tree file names'
+  );
+  t.matchSnapshot(
+    buildMap.map(fileSourcePair => fileSourcePair[1]),
+    '[TS Build - Bare Imports] Correct output source code'
+  );
+
+  config = (await import('../../src/core.js')).getConfig(
+    './test/fixtures/loaderconfig4.json'
+  );
+
+  buildMap = await generateBuildMap(config);
+  t.matchSnapshot(
+    buildMap.map(fileSourcePair => fileSourcePair[0].href),
+    '[TS Build - Relative Imports] Correct output tree file names'
+  );
+  t.matchSnapshot(
+    buildMap.map(fileSourcePair => fileSourcePair[1]),
+    '[TS Build - Relative Imports] Correct output source code'
+  );
 });

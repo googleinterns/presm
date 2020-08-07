@@ -1,5 +1,5 @@
 {
-  "inputDir": "test/fixtures/ts-build-bare",
+  "inputDir": "test/fixtures/ts-build-relative-imports",
   "outputDir": "dist",
   "resourceProviders": [
     {

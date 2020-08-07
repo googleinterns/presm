@@ -1,5 +1,5 @@
 {
-  "inputDir": "test/fixtures/ts-build1",
+  "inputDir": "test/fixtures/ts-build-simple",
   "outputDir": "dist",
   "resourceProviders": [
     {
