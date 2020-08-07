@@ -30,7 +30,6 @@ exports[`test/unit/ts.js TAP TS Unit Tests > [TS Build - Bare Imports] Correct o
 import * as ts from 'typescript';
 console.log(\`Script Target: \${ts.ScriptTarget.ES2020}\`);
 
-console.log('This line was added by a post processor!!');
 `
 
 exports[`test/unit/ts.js TAP TS Unit Tests > [TS Build - Bare Imports] Correct output tree file names 1`] = `
@@ -47,7 +46,6 @@ const myBear = {
 };
 console.log(myBear);
 
-console.log('This line was added by a post processor!!');
 `
 
 exports[`test/unit/ts.js TAP TS Unit Tests > [TS Build - Basic] Correct output tree file names 1`] = `
@@ -62,7 +60,6 @@ console.log(\`Module Name: \${mymodule}\`);
 const myNumArr = numArr(5);
 console.log(\`My Num Arr: \${myNumArr}\`);
 
-console.log('This line was added by a post processor!!');
 `
 
 exports[`test/unit/ts.js TAP TS Unit Tests > [TS Build - Relative Imports] Correct output source code 2`] = `
@@ -80,7 +77,6 @@ export function numArr(num) {
     return arr;
 }
 
-console.log('This line was added by a post processor!!');
 `
 
 exports[`test/unit/ts.js TAP TS Unit Tests > [TS Build - Relative Imports] Correct output tree file names 1`] = `
