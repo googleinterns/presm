@@ -2,6 +2,8 @@ import tap from 'tap';
 
 import {testPreProcessorExports, batchTest} from '../test-utils.js';
 
+import {generateBuildMap} from '../../src/build.js';
+
 import ts from 'typescript';
 
 tap.test('TS Unit Tests', async t => {
@@ -46,4 +48,10 @@ tap.test('TS Unit Tests', async t => {
     'test/fixtures/tsmodule3.ts',
     'test/fixtures/tsmodule4.ts',
   ]);
+
+  // process.env.LOADER_CONFIG = './test/fixtures/loaderconfig3.json';
+
+  // const generateBuildMap = import('../../src/build.js');
+
+  // const buildMap = generateBuildMap();
 });

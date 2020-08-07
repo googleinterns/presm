@@ -1,6 +1,6 @@
 import url from 'url';
 
-import {promises as fs} from 'fs';
+import fs from 'fs';
 
 export function moduleWrapper(source) {
   return `export default ${source}`;
@@ -16,5 +16,10 @@ export function isWrappedModule(extensions) {
 
 export async function pathToRawSource(absPath) {
   const fileURL = url.pathToFileURL(absPath);
-  return fs.readFile(new URL(fileURL), 'utf8');
+  return fs.promises.readFile(new URL(fileURL), 'utf8');
+}
+
+export function getSourceFromPathSync(absPath) {
+  const fileURL = url.pathToFileURL(absPath);
+  return fs.readFileSync(new URL(fileURL), 'utf8');
 }
