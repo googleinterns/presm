@@ -2,23 +2,13 @@ import fs from 'fs';
 import url from 'url';
 import path from 'path';
 
-import {config} from './core.js';
-
 import {getSource} from './loader.js';
 
 // Returns list of [output Tree fileURL, source]
-export async function generateBuildMap() {
+export async function generateBuildMap(configObj) {
   let buildMap = [];
 
   async function iterateDir(inputDirString) {
-    // Create output dir
-    const outputDirString = path.join(config.outputDir, inputDirString);
-    if (!fs.existsSync(outputDirString)) {
-      fs.promises.mkdir(outputDirString, {
-        recursive: true,
-      });
-    }
-
     // Build for all files in the `inputDir`
     const files = await fs.promises.readdir(inputDirString);
     await Promise.all(
@@ -34,7 +24,7 @@ export async function generateBuildMap() {
           );
         } else {
           const outputFileURL = url.pathToFileURL(
-            path.join(config.outputDir, inputDirString, file)
+            path.join(configObj.outputDir, inputDirString, file)
           );
 
           const {source} = await getSource(
@@ -50,11 +40,18 @@ export async function generateBuildMap() {
 
     return buildMap;
   }
-
-  return await iterateDir(config.inputDir);
+  return await iterateDir(configObj.inputDir);
 }
 
-export async function writeBuildMap(buildMap) {
+export async function writeBuildMap(buildMap, configObj) {
+  // Create output dir
+  const outputDirString = path.join(configObj.outputDir, configObj.inputDir);
+  if (!fs.existsSync(outputDirString)) {
+    fs.promises.mkdir(outputDirString, {
+      recursive: true,
+    });
+  }
+
   await Promise.all(
     buildMap.map(async ([outputFileURL, source]) => {
       fs.promises.writeFile(outputFileURL, source, 'utf8');
@@ -62,9 +59,7 @@ export async function writeBuildMap(buildMap) {
   );
 }
 
-async function build() {
+export async function build() {
   const buildMap = await generateBuildMap();
   await writeBuildMap(buildMap);
 }
-
-build();

@@ -1,0 +1,21 @@
+{
+  "outputPrefix": "dist",
+  "resourceProviders": [
+    {
+      "type": "../examples/loaders/resourceprovider-basic-fs.js",
+      "base": "./src"
+    }
+  ],
+  "preProcessors": [
+    {
+      "name": "../examples/loaders/preprocessor-typescript.js",
+      "options": {
+        "compilerOptions": {
+          "target": "esnext",
+          "module": "esnext"
+        }
+      }
+    }
+  ],
+  "postProcessors": []
+}
