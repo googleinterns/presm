@@ -54,8 +54,21 @@ tap.test('TS Unit Tests', async t => {
   //TS Build Tests
   // - simple transpilation
   // - bare specifier transpilation
-  // relative imports transpilation
+  // - relative imports transpilation
 
+  function matchSnapshotSource(buildMap, msg) {
+    buildMap.forEach(fileSourcePair => {
+      t.matchSnapshot(fileSourcePair[1], msg);
+    });
+  }
+
+  function matchSnapshotFileURL(buildMap, msg) {
+    t.matchSnapshot(
+      buildMap.map(fileSourcePair => fileSourcePair[0].href),
+      msg
+    );
+  }
+  // Simple transpilation
   let config = (await import('../../src/core.js')).getConfig(
     './test/fixtures/loaderconfig2.json'
   );
@@ -63,40 +76,48 @@ tap.test('TS Unit Tests', async t => {
   let generateBuildMap = (await import('../../src/build.js')).generateBuildMap;
 
   let buildMap = await generateBuildMap(config);
-  t.matchSnapshot(
-    buildMap.map(fileSourcePair => fileSourcePair[0].href),
+
+  matchSnapshotFileURL(
+    buildMap,
     '[TS Build - Basic] Correct output tree file names'
   );
-  t.matchSnapshot(
-    buildMap.map(fileSourcePair => fileSourcePair[1]),
+
+  matchSnapshotSource(
+    buildMap,
     '[TS Build - Basic] Correct output source code'
   );
 
+  // Bare specifier transpilation
   config = (await import('../../src/core.js')).getConfig(
     './test/fixtures/loaderconfig3.json'
   );
 
   buildMap = await generateBuildMap(config);
-  t.matchSnapshot(
-    buildMap.map(fileSourcePair => fileSourcePair[0].href),
+
+  matchSnapshotFileURL(
+    buildMap,
     '[TS Build - Bare Imports] Correct output tree file names'
   );
-  t.matchSnapshot(
-    buildMap.map(fileSourcePair => fileSourcePair[1]),
+
+  matchSnapshotSource(
+    buildMap,
     '[TS Build - Bare Imports] Correct output source code'
   );
 
+  // Relative imports transpilation
   config = (await import('../../src/core.js')).getConfig(
     './test/fixtures/loaderconfig4.json'
   );
 
   buildMap = await generateBuildMap(config);
-  t.matchSnapshot(
-    buildMap.map(fileSourcePair => fileSourcePair[0].href),
+
+  matchSnapshotFileURL(
+    buildMap,
     '[TS Build - Relative Imports] Correct output tree file names'
   );
-  t.matchSnapshot(
-    buildMap.map(fileSourcePair => fileSourcePair[1]),
+
+  matchSnapshotSource(
+    buildMap,
     '[TS Build - Relative Imports] Correct output source code'
   );
 });
