@@ -2,10 +2,10 @@ import dotenv from 'dotenv';
 dotenv.config();
 
 import {getSourceFromPathSync} from './utils.js';
-export const config = JSON.parse(
-  getSourceFromPathSync(process.env.LOADER_CONFIG)
-);
+export const getConfig = pathToConfig =>
+  JSON.parse(getSourceFromPathSync(pathToConfig));
 
+const config = getConfig(process.env.LOADER_CONFIG || './loaderconfig.json');
 // Load all resourceProviders, preProcessors, and postProcessors as specified in config file
 
 export const resourceProviders = (async () => {
