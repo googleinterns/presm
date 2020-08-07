@@ -2,9 +2,11 @@ import tap from 'tap';
 
 import {testPreProcessorExports, batchTest} from '../test-utils.js';
 
-import {generateBuildMap} from '../../src/build.js';
-
 import ts from 'typescript';
+
+import {cleanSnapshot} from '../test-utils.js';
+
+cleanSnapshot();
 
 tap.test('TS Unit Tests', async t => {
   const tsOptionsList = [
@@ -49,9 +51,20 @@ tap.test('TS Unit Tests', async t => {
     'test/fixtures/tsmodule4.ts',
   ]);
 
-  // process.env.LOADER_CONFIG = './test/fixtures/loaderconfig3.json';
+  let config = (await import('../../src/core.js')).getConfig(
+    './test/fixtures/loaderconfig2.json'
+  );
 
-  // const generateBuildMap = import('../../src/build.js');
+  let generateBuildMap = (await import('../../src/build.js')).generateBuildMap;
 
-  // const buildMap = generateBuildMap();
+  let buildMap = await generateBuildMap(config);
+  t.matchSnapshot(
+    buildMap.map(fileSourcePair => fileSourcePair[0].href),
+    'TS Build Tree contains correct output tree file names'
+  );
+  t.matchSnapshot(
+    buildMap.map(fileSourcePair => fileSourcePair[1]),
+    'TS Build Tree contains correct output source'
+  );
+
 });

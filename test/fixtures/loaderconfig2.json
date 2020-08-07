@@ -1,5 +1,6 @@
 {
-  "outputPrefix": "dist",
+  "inputDir": "test/fixtures/ts-build1",
+  "outputDir": "dist",
   "resourceProviders": [
     {
       "type": "../examples/loaders/resourceprovider-basic-fs.js",

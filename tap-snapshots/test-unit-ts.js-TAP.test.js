@@ -25,3 +25,15 @@ Object {
   "source": "export const placeholder = 42;\\nexport const placeholder2 = [42, 42, 42];\\nconsole.log(placeholder);\\nconsole.log(placeholder2);\\n",
 }
 `
+
+exports[`test/unit/ts.js TAP TS Unit Tests > TS Build Tree contains correct output source 1`] = `
+Array [
+  "const myBear = {\\n    teeth: 10,\\n    type: 'grizzly',\\n    children: [{ teeth: 11, type: 'grizzly', children: [] }],\\n};\\nconsole.log(myBear);\\n\\nconsole.log('This line was added by a post processor!!');",
+]
+`
+
+exports[`test/unit/ts.js TAP TS Unit Tests > TS Build Tree contains correct output tree file names 1`] = `
+Array [
+  "file:///{fs}/presm/dist/test/fixtures/ts-build1/main.js",
+]
+`
