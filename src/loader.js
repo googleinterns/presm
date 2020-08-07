@@ -1,6 +1,6 @@
-import {isWrappedModule} from './utils.mjs';
+import {isWrappedModule} from './utils.js';
 
-import {resourceProviders, preProcessors, postProcessors} from './core.mjs';
+import {resourceProviders, preProcessors, postProcessors} from './core.js';
 
 // Load all resourceProviders, preProcessors, and postProcessors as specified in config file
 

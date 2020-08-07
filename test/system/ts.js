@@ -1,7 +1,7 @@
 import tap from 'tap';
 import * as child from 'child_process';
 
-import {cleanSnapshot} from '../test-utils.mjs';
+import {cleanSnapshot} from '../test-utils.js';
 
 import {promisify} from 'util';
 
@@ -13,7 +13,7 @@ tap.test('TS System Tests', async t => {
     'node',
     [
       '--experimental-top-level-await',
-      '--experimental-loader=./src/loader.mjs',
+      '--experimental-loader=./src/loader.js',
       'test/fixtures/tsmodule4.ts',
     ],
     {
@@ -30,7 +30,7 @@ tap.test('TS System Tests', async t => {
     'node',
     [
       '--experimental-top-level-await',
-      '--experimental-loader=./src/loader.mjs',
+      '--experimental-loader=./src/loader.js',
       'test/fixtures/tsmodule2.ts',
     ],
     {

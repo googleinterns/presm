@@ -2,9 +2,9 @@ import fs from 'fs';
 import url from 'url';
 import path from 'path';
 
-import {config} from './core.mjs';
+import {config} from './core.js';
 
-import {getSource} from './loader.mjs';
+import {getSource} from './loader.js';
 
 // Returns list of [output Tree fileURL, source]
 export async function generateBuildMap() {

@@ -3,17 +3,17 @@
   "outputDir": "dist",
   "resourceProviders": [
     {
-      "type": "../examples/loaders/resourceprovider-basic-fs.mjs",
+      "type": "../examples/loaders/resourceprovider-basic-fs.js",
       "base": "./src"
     }
   ],
   "preProcessors": [
     {
-      "name": "../examples/loaders/preprocessor-yaml.mjs",
+      "name": "../examples/loaders/preprocessor-yaml.js",
       "options": {}
     },
     {
-      "name": "../examples/loaders/preprocessor-typescript.mjs",
+      "name": "../examples/loaders/preprocessor-typescript.js",
       "options": {
         "compilerOptions": {
           "noEmitOnError": true,
@@ -26,7 +26,7 @@
   ],
   "postProcessors": [
     {
-      "name": "../examples/loaders/postprocessor-consolelog.mjs",
+      "name": "../examples/loaders/postprocessor-consolelog.js",
       "options": {}
     }
   ]
