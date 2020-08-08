@@ -1,0 +1,17 @@
+{
+  "inputDir": "test/fixtures/yaml-build-basic",
+  "outputDir": "dist",
+  "resourceProviders": [
+    {
+      "type": "../examples/loaders/resourceprovider-basic-fs.js",
+      "base": "./src"
+    }
+  ],
+  "preProcessors": [
+    {
+      "name": "../examples/loaders/preprocessor-yaml.js",
+      "options": {}
+    }
+  ],
+  "postProcessors": []
+}

@@ -24,10 +24,5 @@
       }
     }
   ],
-  "postProcessors": [
-    {
-      "name": "../examples/loaders/postprocessor-consolelog.js",
-      "options": {}
-    }
-  ]
+  "postProcessors": []
 }

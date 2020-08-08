@@ -4,7 +4,7 @@ import yaml from 'yaml';
 
 export const sourceExtensionTypes = ['.yaml', '.yml'];
 
-export const outputExtensionTypes = ['.json'];
+export const outputExtensionTypes = ['.js'];
 
 export function getPreProcessor(options = {}) {
   return {

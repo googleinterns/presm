@@ -26,4 +26,35 @@ tap.test('YAML System Tests', async t => {
   );
 
   t.matchSnapshot(stdout);
+
+  // YAML Build Tests
+  // - simple transformation (YAML to JS)
+
+  function matchSnapshotSource(buildMap, msg) {
+    buildMap.forEach(fileSourcePair => {
+      t.matchSnapshot(fileSourcePair[1], msg);
+    });
+  }
+
+  function matchSnapshotFileURL(buildMap, msg) {
+    t.matchSnapshot(
+      buildMap.map(fileSourcePair => fileSourcePair[0].href),
+      msg
+    );
+  }
+  // Simple transpilation
+  let config = (await import('../../src/core.js')).getConfig(
+    './test/fixtures/loaderconfig5.json'
+  );
+
+  let generateBuildMap = (await import('../../src/build.js')).generateBuildMap;
+
+  let buildMap = await generateBuildMap(config);
+
+  matchSnapshotFileURL(
+    buildMap,
+    '[YAML Build] - Correct output tree file names'
+  );
+
+  matchSnapshotSource(buildMap, '[YAML Build] - Correct output source code');
 });

@@ -5,6 +5,24 @@
  * Make sure to inspect the output below.  Do not ignore changes!
  */
 'use strict'
+exports[`test/system/yaml.js TAP YAML System Tests > [YAML Build] - Correct output source code 1`] = `
+import yamlFile from './yamlExample.js';
+
+console.log('YAML as JSON: \\n', yamlFile);
+
+`
+
+exports[`test/system/yaml.js TAP YAML System Tests > [YAML Build] - Correct output source code 2`] = `
+export default {"Employees":[{"John Doe":{"job":"SWE","skills":["python","java"]}},{"Jane Doe":{"job":"SWE","skills":["java","python","php"]}}]}
+`
+
+exports[`test/system/yaml.js TAP YAML System Tests > [YAML Build] - Correct output tree file names 1`] = `
+Array [
+  "file:///{fs}/presm/dist/test/fixtures/yaml-build-basic/main.mjs",
+  "file:///{fs}/presm/dist/test/fixtures/yaml-build-basic/yamlExample.js",
+]
+`
+
 exports[`test/system/yaml.js TAP YAML System Tests > must match snapshot 1`] = `
 ### Resolving resource in basic resourceProvider for file:///{fs}/presm/test/fixtures/yamlTest.js
 
