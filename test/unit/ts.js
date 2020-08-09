@@ -50,7 +50,7 @@ tap.test('TS Unit Tests', async t => {
     'test/fixtures/tsmodule3.ts',
     'test/fixtures/tsmodule4.ts',
   ]);
-  
+
   //TS Build Tests
   // - simple transpilation
   // - bare specifier transpilation
@@ -62,23 +62,27 @@ tap.test('TS Unit Tests', async t => {
     });
   }
 
-  function matchSnapshotFileURL(buildMap, msg) {
+  function matchSnapshotFileName(bundleOutputObj, msg) {
     t.matchSnapshot(
-      buildMap.map(fileSourcePair => fileSourcePair[0].href),
+      bundleOutputObj.map(entry => entry.fileName),
       msg
     );
   }
+
   // Simple transpilation
   let config = (await import('../../src/core.js')).getConfig(
     './test/fixtures/loaderconfig2.json'
   );
 
-  let generateBuildMap = (await import('../../src/build.js')).generateBuildMap;
-
+  const {generateBuildMap, generateBundleOutputObj} = await import(
+    '../../src/build.js'
+  );
   let buildMap = await generateBuildMap(config);
 
-  matchSnapshotFileURL(
-    buildMap,
+  let bundleOutputObj = await generateBundleOutputObj(buildMap);
+
+  matchSnapshotFileName(
+    bundleOutputObj,
     '[TS Build - Basic] Correct output tree file names'
   );
 
@@ -94,8 +98,10 @@ tap.test('TS Unit Tests', async t => {
 
   buildMap = await generateBuildMap(config);
 
-  matchSnapshotFileURL(
-    buildMap,
+  bundleOutputObj = await generateBundleOutputObj(buildMap);
+
+  matchSnapshotFileName(
+    bundleOutputObj,
     '[TS Build - Bare Imports] Correct output tree file names'
   );
 
@@ -111,8 +117,10 @@ tap.test('TS Unit Tests', async t => {
 
   buildMap = await generateBuildMap(config);
 
-  matchSnapshotFileURL(
-    buildMap,
+  bundleOutputObj = await generateBundleOutputObj(buildMap);
+
+  matchSnapshotFileName(
+    bundleOutputObj,
     '[TS Build - Relative Imports] Correct output tree file names'
   );
 

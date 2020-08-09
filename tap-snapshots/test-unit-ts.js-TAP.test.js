@@ -34,7 +34,7 @@ console.log(\`Script Target: \${ts.ScriptTarget.ES2020}\`);
 
 exports[`test/unit/ts.js TAP TS Unit Tests > [TS Build - Bare Imports] Correct output tree file names 1`] = `
 Array [
-  "file:///{fs}/presm/dist/test/fixtures/ts-build-bare/main.mjs",
+  "main.mjs",
 ]
 `
 
@@ -50,7 +50,7 @@ console.log(myBear);
 
 exports[`test/unit/ts.js TAP TS Unit Tests > [TS Build - Basic] Correct output tree file names 1`] = `
 Array [
-  "file:///{fs}/presm/dist/test/fixtures/ts-build-simple/main.js",
+  "main.js",
 ]
 `
 
@@ -79,9 +79,15 @@ export function numArr(num) {
 
 `
 
+exports[`test/unit/ts.js TAP TS Unit Tests > [TS Build - Relative Imports] Correct output source code 3`] = `
+console.log(42);
+
+`
+
 exports[`test/unit/ts.js TAP TS Unit Tests > [TS Build - Relative Imports] Correct output tree file names 1`] = `
 Array [
-  "file:///{fs}/presm/dist/test/fixtures/ts-build-relative-imports/main.mjs",
-  "file:///{fs}/presm/dist/test/fixtures/ts-build-relative-imports/mymodule.mjs",
+  "main.mjs",
+  "mymodule.mjs",
+  "no-imports.js",
 ]
 `

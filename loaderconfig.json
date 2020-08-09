@@ -16,8 +16,6 @@
       "name": "../examples/loaders/preprocessor-typescript.js",
       "options": {
         "compilerOptions": {
-          "noEmitOnError": true,
-          "noImplicitAny": true,
           "target": "esnext",
           "module": "esnext"
         }
