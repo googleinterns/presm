@@ -50,8 +50,8 @@ export async function generateBundleOutputObj(outputFileList) {
     ([inputTreeFileURL]) => inputTreeFileURL.pathname
   );
 
-  const PRESMPlugin = {
-    name: 'PRESMPlugin',
+  const pluginPRESM = {
+    name: 'pluginPRESM',
     resolveId: source => {
       if (filenames.includes(source)) {
         return source;
@@ -73,7 +73,7 @@ export async function generateBundleOutputObj(outputFileList) {
 
   const inputOptions = {
     input: filenames,
-    plugins: [PRESMPlugin],
+    plugins: [pluginPRESM],
   };
 
   let preGenerate = true;
