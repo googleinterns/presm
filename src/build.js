@@ -47,8 +47,8 @@ export async function generateOutputFileList(coreInstance) {
 }
 
 export async function generateBundleOutputObj(outputFileList) {
-  const filenames = outputFileList.map(
-    ([inputTreeFileURL]) => inputTreeFileURL.pathname
+  const filenames = outputFileList.map(([inputTreeFileURL]) =>
+    url.fileURLToPath(inputTreeFileURL)
   );
 
   const pluginPRESM = {
@@ -62,7 +62,7 @@ export async function generateBundleOutputObj(outputFileList) {
     // If source is in outputFileList, return source code
     load: id => {
       const sourceIdx = outputFileList.findIndex(
-        ([inputTreeFileURL]) => inputTreeFileURL.pathname === id
+        ([inputTreeFileURL]) => url.fileURLToPath(inputTreeFileURL) === id
       );
       if (sourceIdx !== -1) {
         // Return source from outputFileList
