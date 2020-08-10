@@ -74,10 +74,10 @@ tap.test('TS Unit Tests', async t => {
     './test/fixtures/loaderconfig2.json'
   );
 
-  const {generateBuildMap, generateBundleOutputObj} = await import(
+  const {generateOutputFileList, generateBundleOutputObj} = await import(
     '../../src/build.js'
   );
-  let buildMap = await generateBuildMap(config);
+  let buildMap = await generateOutputFileList(config);
 
   let bundleOutputObj = await generateBundleOutputObj(buildMap);
 
@@ -96,7 +96,7 @@ tap.test('TS Unit Tests', async t => {
     './test/fixtures/loaderconfig3.json'
   );
 
-  buildMap = await generateBuildMap(config);
+  buildMap = await generateOutputFileList(config);
 
   bundleOutputObj = await generateBundleOutputObj(buildMap);
 
@@ -115,7 +115,7 @@ tap.test('TS Unit Tests', async t => {
     './test/fixtures/loaderconfig4.json'
   );
 
-  buildMap = await generateBuildMap(config);
+  buildMap = await generateOutputFileList(config);
 
   bundleOutputObj = await generateBundleOutputObj(buildMap);
 

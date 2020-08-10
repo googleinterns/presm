@@ -6,9 +6,9 @@ import {rollup} from 'rollup';
 
 import {getSource} from './loader.js';
 
-// Returns list of [output Tree fileURL, source]
-export async function generateBuildMap(configObj) {
-  let buildMap = [];
+// Returns outputFileList: list of [Input Tree fileURL, source]
+export async function generateOutputFileList(configObj) {
+  let outputFileList = [];
 
   async function iterateDir(inputDirString) {
     // Build for all files in the `inputDir`
@@ -20,13 +20,13 @@ export async function generateBuildMap(configObj) {
         const fileIsDir = fs.lstatSync(inputFileURL).isDirectory();
 
         if (fileIsDir) {
-          // Merge sub-directory buildMap
-          buildMap = buildMap.concat(
+          // Merge sub-directory outputFileList
+          outputFileList = outputFileList.concat(
             await iterateDir(path.join(inputDirString, file))
           );
         } else {
           const outputFileURL = url.pathToFileURL(
-            path.join(/*configObj.outputDir,*/ inputDirString, file)
+            path.join(inputDirString, file)
           );
 
           const {source} = await getSource(
@@ -35,48 +35,56 @@ export async function generateBuildMap(configObj) {
             {format: 'module'},
             () => {}
           );
-          buildMap.push([outputFileURL, source]);
+          outputFileList.push([outputFileURL, source]);
         }
       })
     );
 
-    return buildMap;
+    return outputFileList;
   }
   return await iterateDir(configObj.inputDir);
 }
 
-export async function generateBundleOutputObj(buildMap) {
-  const filenames = buildMap.map(buildPair => buildPair[0].pathname);
+export async function generateBundleOutputObj(outputFileList) {
+  const filenames = outputFileList.map(
+    ([inputTreeFileURL]) => inputTreeFileURL.pathname
+  );
 
-  function PRESMPlugin() {
-    return {
-      name: 'PRESMPlugin',
-      resolveId(source) {
-        if (filenames.includes(source)) {
-          return source;
-        }
-        return null;
-      },
-      // If source is in buildmap, return source code
-      load(id) {
-        const sourceArr = buildMap.filter(
-          buildPair => buildPair[0].pathname === id
-        );
-        if (sourceArr) {
-          return sourceArr[0][1];
-        }
-        return null;
-      },
-    };
-  }
+  const PRESMPlugin = {
+    name: 'PRESMPlugin',
+    resolveId: source => {
+      if (filenames.includes(source)) {
+        return source;
+      }
+      return null;
+    },
+    // If source is in outputFileList, return source code
+    load: id => {
+      const sourceIdx = outputFileList.findIndex(
+        ([inputTreeFileURL]) => inputTreeFileURL.pathname === id
+      );
+      if (sourceIdx !== -1) {
+        // Return source from outputFileList
+        return outputFileList[sourceIdx][1];
+      }
+      return null;
+    },
+  };
 
   const inputOptions = {
     input: filenames,
-    plugins: [PRESMPlugin()],
+    plugins: [PRESMPlugin],
   };
 
   let preGenerate = true;
 
+  // The following outputOptions is used twice
+  // First to generate the initial bundle with import/export
+  //  information for each file
+  // Second, using this import/export information
+  //  to generate a new bundle with appropriate
+  //  output tree specifier references and filenames
+  //  See "entryFileNames" hook below
   const outputOptions = {
     dir: 'dist',
     preserveModules: true,
@@ -100,7 +108,7 @@ export async function generateBundleOutputObj(buildMap) {
   // Generate bundle using our output options
   let {output} = await bundle.generate(outputOptions);
   const isModule = new Set();
-  // Populate set isModule needed to determine extensions
+  // Populate set isModule needed to determine extensions in second generation
   output.forEach(chunk => {
     if (chunk.exports.length > 0 || chunk.imports.length > 0) {
       isModule.add(chunk.facadeModuleId);
@@ -113,7 +121,7 @@ export async function generateBundleOutputObj(buildMap) {
   return output;
 }
 
-export async function writeBuildMap(buildMap, configObj) {
+export async function writeoutputFileList(outputFileList, configObj) {
   // Create output dir
   const outputDirString = path.join(configObj.outputDir, configObj.inputDir);
   if (!fs.existsSync(outputDirString)) {
@@ -123,13 +131,13 @@ export async function writeBuildMap(buildMap, configObj) {
   }
 
   await Promise.all(
-    buildMap.map(async ([outputFileURL, source]) => {
+    outputFileList.map(async ([outputFileURL, source]) => {
       fs.promises.writeFile(outputFileURL, source, 'utf8');
     })
   );
 }
 
 export async function build() {
-  const buildMap = await generateBuildMap();
-  await writeBuildMap(buildMap);
+  const outputFileList = await generateOutputFileList();
+  await writeoutputFileList(outputFileList);
 }
