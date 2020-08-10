@@ -6,6 +6,8 @@ import ts from 'typescript';
 
 import {cleanSnapshot} from '../test-utils.js';
 
+import {Core} from '../../src/core.js';
+
 cleanSnapshot();
 
 tap.test('TS Unit Tests', async t => {
@@ -70,14 +72,12 @@ tap.test('TS Unit Tests', async t => {
   }
 
   // Simple transpilation
-  let config = (await import('../../src/core.js')).getConfig(
-    './test/fixtures/loaderconfig2.json'
-  );
+  let coreObj = new Core('./test/fixtures/loaderconfig2.json');
 
   const {generateOutputFileList, generateBundleOutputObj} = await import(
     '../../src/build.js'
   );
-  let buildMap = await generateOutputFileList(config);
+  let buildMap = await generateOutputFileList(coreObj);
 
   let bundleOutputObj = await generateBundleOutputObj(buildMap);
 
@@ -92,11 +92,9 @@ tap.test('TS Unit Tests', async t => {
   );
 
   // Bare specifier transpilation
-  config = (await import('../../src/core.js')).getConfig(
-    './test/fixtures/loaderconfig3.json'
-  );
+  coreObj = new Core('./test/fixtures/loaderconfig3.json');
 
-  buildMap = await generateOutputFileList(config);
+  buildMap = await generateOutputFileList(coreObj);
 
   bundleOutputObj = await generateBundleOutputObj(buildMap);
 
@@ -111,11 +109,9 @@ tap.test('TS Unit Tests', async t => {
   );
 
   // Relative imports transpilation
-  config = (await import('../../src/core.js')).getConfig(
-    './test/fixtures/loaderconfig4.json'
-  );
+  coreObj = new Core('./test/fixtures/loaderconfig4.json');
 
-  buildMap = await generateOutputFileList(config);
+  buildMap = await generateOutputFileList(coreObj);
 
   bundleOutputObj = await generateBundleOutputObj(buildMap);
 

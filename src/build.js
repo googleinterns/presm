@@ -7,7 +7,7 @@ import {rollup} from 'rollup';
 import {getSource} from './loader.js';
 
 // Returns outputFileList: list of [Input Tree fileURL, source]
-export async function generateOutputFileList(configObj) {
+export async function generateOutputFileList(coreInstance) {
   let outputFileList = [];
 
   async function iterateDir(inputDirString) {
@@ -33,7 +33,8 @@ export async function generateOutputFileList(configObj) {
             inputFileURL.toString(),
             // Temporary 'module' format for everything
             {format: 'module'},
-            () => {}
+            () => {},
+            coreInstance
           );
           outputFileList.push([outputFileURL, source]);
         }
@@ -42,7 +43,7 @@ export async function generateOutputFileList(configObj) {
 
     return outputFileList;
   }
-  return await iterateDir(configObj.inputDir);
+  return await iterateDir(coreInstance.config.inputDir);
 }
 
 export async function generateBundleOutputObj(outputFileList) {
@@ -121,9 +122,12 @@ export async function generateBundleOutputObj(outputFileList) {
   return output;
 }
 
-export async function writeoutputFileList(outputFileList, configObj) {
+export async function writeoutputFileList(outputFileList, coreInstance) {
   // Create output dir
-  const outputDirString = path.join(configObj.outputDir, configObj.inputDir);
+  const outputDirString = path.join(
+    coreInstance.outputDir,
+    coreInstance.inputDir
+  );
   if (!fs.existsSync(outputDirString)) {
     fs.promises.mkdir(outputDirString, {
       recursive: true,
