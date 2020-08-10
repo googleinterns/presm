@@ -46,7 +46,7 @@ export async function generateOutputFileList(coreInstance) {
   return await iterateDir(coreInstance.config.inputDir);
 }
 
-export async function generateBundleOutputObj(outputFileList) {
+export async function generateBundleOutputObj(outputFileList, coreInstance) {
   const filenames = outputFileList.map(([inputTreeFileURL]) =>
     url.fileURLToPath(inputTreeFileURL)
   );
@@ -87,7 +87,7 @@ export async function generateBundleOutputObj(outputFileList) {
   //  output tree specifier references and filenames
   //  See "entryFileNames" hook below
   const outputOptions = {
-    dir: 'dist',
+    dir: coreInstance.config.outputDir,
     preserveModules: true,
     // Determine extension for output files
     entryFileNames: entry => {

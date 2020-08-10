@@ -79,7 +79,7 @@ tap.test('TS Unit Tests', async t => {
   );
   let buildMap = await generateOutputFileList(coreObj);
 
-  let bundleOutputObj = await generateBundleOutputObj(buildMap);
+  let bundleOutputObj = await generateBundleOutputObj(buildMap, coreObj);
 
   matchSnapshotFileName(
     bundleOutputObj,
@@ -96,7 +96,7 @@ tap.test('TS Unit Tests', async t => {
 
   buildMap = await generateOutputFileList(coreObj);
 
-  bundleOutputObj = await generateBundleOutputObj(buildMap);
+  bundleOutputObj = await generateBundleOutputObj(buildMap, coreObj);
 
   matchSnapshotFileName(
     bundleOutputObj,
@@ -113,7 +113,7 @@ tap.test('TS Unit Tests', async t => {
 
   buildMap = await generateOutputFileList(coreObj);
 
-  bundleOutputObj = await generateBundleOutputObj(buildMap);
+  bundleOutputObj = await generateBundleOutputObj(buildMap, coreObj);
 
   matchSnapshotFileName(
     bundleOutputObj,
