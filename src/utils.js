@@ -23,3 +23,11 @@ export function getSourceFromPathSync(absPath) {
   const fileURL = url.pathToFileURL(absPath);
   return fs.readFileSync(new URL(fileURL), 'utf8');
 }
+
+export function isBareSpecifier(specifier) {
+  if (specifier.startsWith('.') || specifier.startsWith('/')) {
+    return false;
+  } else {
+    return true;
+  }
+}
