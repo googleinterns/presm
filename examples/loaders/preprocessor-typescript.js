@@ -13,7 +13,6 @@ export function getPreProcessor(configOptions = {}) {
         if (isBareSpecifier(oldSpecifier)) {
           return oldSpecifier;
         }
-        console.log(oldSpecifier);
         const moduleResolutionHost = {
           fileExists: fileName => {
             return ts.sys.fileExists(fileName);
