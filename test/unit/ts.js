@@ -4,6 +4,12 @@ import {testPreProcessorExports, batchTest} from '../test-utils.js';
 
 import ts from 'typescript';
 
+import {cleanSnapshot} from '../test-utils.js';
+
+import {Core} from '../../src/core.js';
+
+cleanSnapshot();
+
 tap.test('TS Unit Tests', async t => {
   const tsOptionsList = [
     {
@@ -46,4 +52,76 @@ tap.test('TS Unit Tests', async t => {
     'test/fixtures/tsmodule3.ts',
     'test/fixtures/tsmodule4.ts',
   ]);
+
+  //TS Build Tests
+  // - simple transpilation
+  // - bare specifier transpilation
+  // - relative imports transpilation
+
+  function matchSnapshotSource(buildMap, msg) {
+    buildMap.forEach(fileSourcePair => {
+      t.matchSnapshot(fileSourcePair[1], msg);
+    });
+  }
+
+  function matchSnapshotFileName(bundleOutputObj, msg) {
+    t.matchSnapshot(
+      bundleOutputObj.map(entry => entry.fileName),
+      msg
+    );
+  }
+
+  // Simple transpilation
+  let coreObj = new Core('./test/fixtures/loaderconfig2.json');
+
+  const {generateOutputFileList, generateBundleOutputObj} = await import(
+    '../../src/build.js'
+  );
+  let buildMap = await generateOutputFileList(coreObj);
+
+  let bundleOutputObj = await generateBundleOutputObj(buildMap, coreObj);
+
+  matchSnapshotFileName(
+    bundleOutputObj,
+    '[TS Build - Basic] Correct output tree file names'
+  );
+
+  matchSnapshotSource(
+    buildMap,
+    '[TS Build - Basic] Correct output source code'
+  );
+
+  // Bare specifier transpilation
+  coreObj = new Core('./test/fixtures/loaderconfig3.json');
+
+  buildMap = await generateOutputFileList(coreObj);
+
+  bundleOutputObj = await generateBundleOutputObj(buildMap, coreObj);
+
+  matchSnapshotFileName(
+    bundleOutputObj,
+    '[TS Build - Bare Imports] Correct output tree file names'
+  );
+
+  matchSnapshotSource(
+    buildMap,
+    '[TS Build - Bare Imports] Correct output source code'
+  );
+
+  // Relative imports transpilation
+  coreObj = new Core('./test/fixtures/loaderconfig4.json');
+
+  buildMap = await generateOutputFileList(coreObj);
+
+  bundleOutputObj = await generateBundleOutputObj(buildMap, coreObj);
+
+  matchSnapshotFileName(
+    bundleOutputObj,
+    '[TS Build - Relative Imports] Correct output tree file names'
+  );
+
+  matchSnapshotSource(
+    buildMap,
+    '[TS Build - Relative Imports] Correct output source code'
+  );
 });

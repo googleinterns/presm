@@ -1,5 +1,5 @@
 {
-  "inputDir": "examples/calc",
+  "inputDir": "test/fixtures/ts-build-relative-imports",
   "outputDir": "dist",
   "resourceProviders": [
     {
@@ -8,10 +8,6 @@
     }
   ],
   "preProcessors": [
-    {
-      "name": "../examples/loaders/preprocessor-yaml.js",
-      "options": {}
-    },
     {
       "name": "../examples/loaders/preprocessor-typescript.js",
       "options": {
