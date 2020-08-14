@@ -1,11 +1,6 @@
-import {promises as fs} from 'fs';
+import fs from 'fs';
 import url from 'url';
 import tap from 'tap';
-
-export async function pathToRawSource(absPath) {
-  const fileURL = url.pathToFileURL(absPath);
-  return fs.readFile(new URL(fileURL), 'utf8');
-}
 
 // Tests exports that all Pre-Processors should have
 export function testPreProcessorExports(preprocessor, options) {
@@ -69,7 +64,7 @@ export async function batchTest(t, processor, options, inputs) {
   for (let testIdx = 0; testIdx < numTests; testIdx++) {
     const processorInstance = processor.getPreProcessor(optionsList[testIdx]);
 
-    const rawSource = await pathToRawSource(inputs[testIdx]);
+    const rawSource = await fs.promises.readFile(inputs[testIdx], 'utf8');
 
     const urlToProcess = url.pathToFileURL(inputs[testIdx]).toString();
     const processedOutput = await processorInstance.process(
