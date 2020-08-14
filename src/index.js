@@ -1,19 +1,28 @@
 #!/usr/bin/env node
 
+import url from 'url';
+import path from 'path';
+
 import {createRequire} from 'module';
 const loadViaRequire = createRequire(import.meta.url);
-const {argv} = loadViaRequire('yargs').option('b', {
-  alias: 'build',
-  describe: 'Your name',
-  type: 'boolean',
-  demandOption: false,
-});
+const {argv} = loadViaRequire('yargs')
+  .option('b', {
+    alias: 'build',
+    describe: 'Build project',
+    type: 'boolean',
+    demandOption: false,
+  })
+  .option('f', {
+    alias: 'file',
+    describe: 'File to build',
+    type: 'string',
+    demandOption: false,
+  });
 
-// async function build() {}
 async function main() {
   if (argv.build) {
     const {build} = await import('./build.js');
-    await build();
+    await build(argv.file);
   }
 }
 
