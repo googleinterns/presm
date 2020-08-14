@@ -80,10 +80,10 @@ tap.test('TS Unit Tests', async t => {
 
   let buildMap = await generateOutputFileList(coreObj);
 
-  let {output} = await generateBundleObj(buildMap, coreObj);
+  let {generatedOutput} = await generateBundleObj(buildMap, coreObj);
 
   matchSnapshotFileName(
-    output,
+    generatedOutput,
     '[TS Build - Basic] Correct output tree file names'
   );
 
@@ -97,10 +97,10 @@ tap.test('TS Unit Tests', async t => {
 
   buildMap = await generateOutputFileList(coreObj);
 
-  ({output} = await generateBundleObj(buildMap, coreObj));
+  ({generatedOutput} = await generateBundleObj(buildMap, coreObj));
 
   matchSnapshotFileName(
-    output,
+    generatedOutput,
     '[TS Build - Bare Imports] Correct output tree file names'
   );
 
@@ -114,10 +114,10 @@ tap.test('TS Unit Tests', async t => {
 
   buildMap = await generateOutputFileList(coreObj);
 
-  ({output} = await generateBundleObj(buildMap, coreObj));
+  ({generatedOutput} = await generateBundleObj(buildMap, coreObj));
 
   matchSnapshotFileName(
-    output,
+    generatedOutput,
     '[TS Build - Relative Imports] Correct output tree file names'
   );
 

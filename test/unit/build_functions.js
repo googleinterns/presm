@@ -1,6 +1,5 @@
 import tap from 'tap';
-
-import ts from 'typescript';
+import url from 'url';
 
 import {cleanSnapshot} from '../test-utils.js';
 
@@ -18,38 +17,84 @@ tap.test('Build System Unit Tests', async t => {
     build,
   } = await import('../../src/build.js');
 
-  let coreInstance = new Core('./test/fixtures/loaderconfig5.json');
+  let coreInstance;
 
-  t.matchSnapshot(coreInstance, 'Loader config file read correctly');
+  t.test('Core class', async t => {
+    coreInstance = new Core('./test/fixtures/loaderconfig5.json');
+    t.ok(coreInstance.config, 'Loader config file read sucessfully');
 
-  let outputFileList = await generateOutputFileList(coreInstance);
-  t.matchSnapshot(outputFileList, 'Output file list generated correctly');
+    t.resolves(
+      coreInstance.resourceProviders,
+      'Resource Providers resolves to list sucessfully'
+    );
+    t.resolves(
+      coreInstance.preProcessors,
+      'Pre-processors resolves to list sucessfully'
+    );
+    t.resolves(
+      coreInstance.postProcessors,
+      'Post-processors resolves to list sucessfully'
+    );
+  });
 
-  let inputOptions = await getRollupInputOptions(outputFileList);
+  let outputFileList;
+  t.test('Output file list', async t => {
+    outputFileList = await generateOutputFileList(coreInstance);
+    t.ok(outputFileList, 'Output file list generated');
+    t.ok(
+      Array.isArray(outputFileList) && Array.isArray(outputFileList[0]),
+      'Output file list correct structure'
+    );
+    const [fileURL, fileSource] = outputFileList[0];
+    t.matchSnapshot(
+      fileURL.toString(),
+      'Output file list fileURL points to correct resource '
+    );
+    t.matchSnapshot(fileSource, 'Output file list source correctly passed');
+  });
 
-  t.matchSnapshot(inputOptions, 'Input options generated correctly');
+  t.test('Rollup options generation', async t => {
+    let inputOptions = await getRollupInputOptions(outputFileList);
 
-  let outputOptions = await getRollupOutputOptions(coreInstance);
+    t.ok(inputOptions, 'Input options generated');
 
-  t.matchSnapshot(
-    outputOptions,
-    'Ouput options (initial options) generated correctly'
-  );
+    t.ok(inputOptions.input, 'Input options have required input field');
 
-  let generatedBundleObj = await generateBundleObj(
-    outputFileList,
-    coreInstance
-  );
+    let outputOptions = await getRollupOutputOptions(coreInstance);
 
-  t.matchSnapshot(generatedBundleObj, 'Bundle object generated correctly');
+    t.ok(outputOptions, 'Output options (initial options) generated');
 
-  outputOptions = await getRollupOutputOptions(
-    coreInstance,
-    generatedBundleObj.output
-  );
+    t.ok(
+      outputOptions.preserveModules ? outputOptions.dir : outputOptions.file,
+      'Output options have required output direcrtory or file'
+    );
+  });
 
-  t.matchSnapshot(
-    outputOptions,
-    'Ouput options (final options) generated correctly'
-  );
+  t.test('Rollup bundle generation', async t => {
+    let {bundle, outputOptions, generatedOutput} = await generateBundleObj(
+      outputFileList,
+      coreInstance
+    );
+    t.ok(bundle && generatedOutput, 'Rollup bundle generated');
+
+    outputOptions = await getRollupOutputOptions(coreInstance, generatedOutput);
+    t.ok(outputOptions, 'Output options (final options) generated');
+
+    generatedOutput.forEach(rollupFileObj => {
+      if (
+        rollupFileObj.exports.length > 0 ||
+        rollupFileObj.imports.length > 0
+      ) {
+        t.ok(
+          rollupFileObj.fileName.endsWith('.mjs'),
+          `ESM module file (${rollupFileObj.fileName}) denoted with proper extension`
+        );
+      } else {
+        t.ok(
+          !rollupFileObj.fileName.endsWith('.mjs'),
+          `Non-ESM module file (${rollupFileObj.fileName}) denoted with proper extension`
+        );
+      }
+    });
+  });
 });

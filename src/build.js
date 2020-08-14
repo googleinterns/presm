@@ -163,7 +163,9 @@ export async function generateOutputFileList(
  *
  * @param {object} outputFileList an array of arrays, each with the form: [fileURL: URL, source: string]
  * @param {object} coreInstance an instance of Core class (see src/core)
- * @returns {objecy} Rollup bundle object
+ * @returns {object} {bundle: Rollup bundle object,
+ *                    outputOptions: Rollup output options for writing,
+ *                     generatedOutput: result of bundle.generate().output}
  */
 export async function generateBundleObj(outputFileList, coreInstance) {
   // Initialize bundle
@@ -176,7 +178,11 @@ export async function generateBundleObj(outputFileList, coreInstance) {
   // Generate final bundle with final output extensions
   outputOptions = getRollupOutputOptions(coreInstance, output);
   ({output} = await bundle.generate(outputOptions));
-  return {bundle: bundle, outputOptions: outputOptions, output: output};
+  return {
+    bundle: bundle,
+    outputOptions: outputOptions,
+    generatedOutput: output,
+  };
 }
 
 /**
