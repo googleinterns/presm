@@ -7,6 +7,13 @@ import {getSource} from './loader.js';
 
 import {Core} from './core.js';
 
+/**
+ * Generates an object of input options for Rollup
+ * https://rollupjs.org/guide/en/#big-list-of-options
+ *
+ * @param {object} outputFileList an array of arrays, each with the form: [fileURL: URL, source: string]
+ * @returns {object} input options for to be used in rollup(inputOptions)
+ */
 export function getRollupInputOptions(outputFileList) {
   const filePaths = outputFileList.map(([inputTreeFileURL]) =>
     url.fileURLToPath(inputTreeFileURL)
@@ -40,6 +47,15 @@ export function getRollupInputOptions(outputFileList) {
   return inputOptions;
 }
 
+/**
+ * Generates an object of output options for Rollup
+ * https://rollupjs.org/guide/en/#big-list-of-options
+ *
+ * @param {object} coreInstance an instance of Core class (see src/core)
+ * @param {object} prevBundleOutputObj bundle.generate().output object - used to determine extensions
+ * @returns {object} output options for to be used in rollup(outputOptions)
+ *
+ */
 export function getRollupOutputOptions(coreInstance, prevBundleOutputObj) {
   // Populate set isModule needed to determine extensions in second generation
   const isModule = new Set();
@@ -78,13 +94,23 @@ export function getRollupOutputOptions(coreInstance, prevBundleOutputObj) {
   return outputOptions;
 }
 
-// Returns outputFileList: list of [Input Tree fileURL, source]
-export async function generateOutputFileList(coreInstance, entryFileAbsPath) {
+/**
+ * Generates a list of file URLs and their source code to process and write to disk
+ *
+ * @param {object} coreInstance an instance of Core class (see src/core)
+ * @param {string} entryFileRelativePath path of file PRESM should process and write to disk
+ * @returns {object} an array of arrays, each with the form: [fileURL: URL, source: string]
+ *                  if(entryFileRelativePath exists) then this list contains only 1 element
+ */
+export async function generateOutputFileList(
+  coreInstance,
+  entryFileRelativePath
+) {
   let outputFileList = [];
 
-  if (entryFileAbsPath) {
+  if (entryFileRelativePath) {
     const {fileURL, source} = await getSourceFromFileURL(
-      entryFileAbsPath,
+      entryFileRelativePath,
       process.cwd()
     );
     return [[fileURL, source]];
@@ -131,6 +157,14 @@ export async function generateOutputFileList(coreInstance, entryFileAbsPath) {
   return await iterateDir(coreInstance.config.inputDir);
 }
 
+/**
+ * Generates a Rollup bundle object, used to generate() and build()
+ * https://rollupjs.org/guide/en/#rolluprollup
+ *
+ * @param {object} outputFileList an array of arrays, each with the form: [fileURL: URL, source: string]
+ * @param {object} coreInstance an instance of Core class (see src/core)
+ * @returns {objecy} Rollup bundle object
+ */
 export async function generateBundleObj(outputFileList, coreInstance) {
   // Initialize bundle
   const bundle = await rollup(getRollupInputOptions(outputFileList));
@@ -142,34 +176,42 @@ export async function generateBundleObj(outputFileList, coreInstance) {
   // Generate final bundle with final output extensions
   outputOptions = getRollupOutputOptions(coreInstance, output);
   ({output} = await bundle.generate(outputOptions));
-  return {bundle: bundle, output: output};
+  return {bundle: bundle, outputOptions: outputOptions, output: output};
 }
 
-export async function writeBundleFiles(coreInstance, bundle, generatedOutput) {
+/**
+ * Writes files to disk
+ *
+ * @param {object} bundle a Rollup bundle object
+ * @param {object} outputOptions Rollup output options object, generated in generateBundleObj
+ * @returns {boolean} boolean based on sucessfully writing files
+ */
+export async function writeBundleFiles(bundle, outputOptions) {
   try {
-    const outputOptions = getRollupOutputOptions(coreInstance, generatedOutput);
     await bundle.write(outputOptions);
     return true;
   } catch (error) {
-    console.log('The following error occurred while building: ', error);
+    console.log('The following error occurred while writing files: ', error);
     return false;
   }
 }
 
-export async function build(entryFileAbsPath) {
+/**
+ * Performs the entire build process - writes to disk
+ *
+ * @param {string} entryFileRelativePath path of file PRESM should process and write to disk
+ * @returns {boolean} boolean based on sucessfully writing files
+ */
+export async function build(entryFileRelativePath) {
   const coreInstance = new Core();
   const outputFileList = await generateOutputFileList(
     coreInstance,
-    entryFileAbsPath
+    entryFileRelativePath
   );
-  const {bundle, output} = await generateBundleObj(
+  const {bundle, outputOptions} = await generateBundleObj(
     outputFileList,
     coreInstance
   );
-  const writtenSucessfully = await writeBundleFiles(
-    coreInstance,
-    bundle,
-    output
-  );
+  const writtenSucessfully = await writeBundleFiles(bundle, outputOptions);
   return writtenSucessfully;
 }

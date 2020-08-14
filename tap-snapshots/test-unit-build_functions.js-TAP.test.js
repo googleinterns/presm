@@ -272,6 +272,13 @@ Object {
       "type": "chunk",
     },
   ],
+  "outputOptions": Object {
+    "dir": "dist",
+    "entryFileNames": Function entryFileNames(entry),
+    "format": "esm",
+    "plugins": Array [],
+    "preserveModules": true,
+  },
 }
 `
 
