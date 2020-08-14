@@ -21,6 +21,10 @@
   "engines": {
     "node": ">=12.2.0"
   },
+  "main": "./src/index.js",
+  "bin": {
+    "presm": "./src/index.js"
+  },
   "scripts": {
     "lint": "eslint . --ext .mjs --ext .ts --ext .js",
     "lint-fix": "eslint . --ext .mjs --ext .ts --ext .js --fix",
