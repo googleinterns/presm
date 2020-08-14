@@ -7,7 +7,7 @@ import ts from 'typescript';
 import {cleanSnapshot} from '../test-utils.js';
 
 import {Core} from '../../src/core.js';
-
+import {generateOutputFileList, generateBundleObj} from '../../src/build.js';
 cleanSnapshot();
 
 tap.test('TS Unit Tests', async t => {
@@ -70,10 +70,6 @@ tap.test('TS Unit Tests', async t => {
       msg
     );
   }
-
-  const {generateOutputFileList, generateBundleObj} = await import(
-    '../../src/build.js'
-  );
 
   // Simple transpilation
   let coreObj = new Core('./test/fixtures/loaderconfig2.json');
