@@ -7,7 +7,7 @@ import {getSource} from './loader.js';
 
 import {Core} from './core.js';
 
-function getRollupInputOptions(outputFileList) {
+export function getRollupInputOptions(outputFileList) {
   const filePaths = outputFileList.map(([inputTreeFileURL]) =>
     url.fileURLToPath(inputTreeFileURL)
   );
@@ -40,7 +40,7 @@ function getRollupInputOptions(outputFileList) {
   return inputOptions;
 }
 
-function getRollupOutputOptions(coreInstance, prevBundleOutputObj) {
+export function getRollupOutputOptions(coreInstance, prevBundleOutputObj) {
   // Populate set isModule needed to determine extensions in second generation
   const isModule = new Set();
   if (prevBundleOutputObj) {
