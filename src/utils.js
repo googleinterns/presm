@@ -22,11 +22,6 @@ export async function pathToRawSource(p) {
   return fs.promises.readFile(new URL(fileURL), 'utf8');
 }
 
-export function getSourceFromPathSync(p) {
-  const fileURL = url.pathToFileURL(path.join(__root_dirname, p));
-  return fs.readFileSync(new URL(fileURL), 'utf8');
-}
-
 export function isBareSpecifier(specifier) {
   if (specifier.startsWith('.') || specifier.startsWith('/')) {
     return false;

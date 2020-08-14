@@ -1,7 +1,6 @@
 import dotenv from 'dotenv';
 dotenv.config();
-
-import {getSourceFromPathSync} from './utils.js';
+import fs from 'fs';
 
 export class Core {
   constructor(pathToConfig) {
@@ -12,7 +11,7 @@ export class Core {
   }
 
   getConfig(pathToConfig) {
-    return JSON.parse(getSourceFromPathSync(pathToConfig));
+    return JSON.parse(fs.readFileSync(pathToConfig, 'utf8'));
   }
 
   // Load all resourceProviders, preProcessors, and postProcessors as specified in config file
