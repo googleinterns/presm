@@ -12,11 +12,7 @@ tap.test('YAML System Tests', async t => {
 
   const {stdout} = await execFile(
     'node',
-    [
-      '--experimental-top-level-await',
-      '--experimental-loader=./src/loader.js',
-      'test/fixtures/yamlTest.js',
-    ],
+    ['--experimental-loader=./src/loader.js', 'test/fixtures/yamlTest.js'],
     {
       env: {
         ...process.env,

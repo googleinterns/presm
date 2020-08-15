@@ -27,7 +27,7 @@ Object {
 `
 
 exports[`test/unit/ts.js TAP TS Unit Tests > [TS Build - Bare Imports] Correct output source code 1`] = `
-import * as ts from 'typescript';
+import * as ts from "typescript";
 console.log(\`Script Target: \${ts.ScriptTarget.ES2020}\`);
 
 `

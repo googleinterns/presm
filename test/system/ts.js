@@ -11,11 +11,7 @@ const execFile = promisify(child.execFile);
 tap.test('TS System Tests', async t => {
   let {stdout} = await execFile(
     'node',
-    [
-      '--experimental-top-level-await',
-      '--experimental-loader=./src/loader.js',
-      'test/fixtures/tsmodule4.ts',
-    ],
+    ['--experimental-loader=./src/loader.js', 'test/fixtures/tsmodule4.ts'],
     {
       env: {
         ...process.env,
@@ -28,11 +24,7 @@ tap.test('TS System Tests', async t => {
 
   ({stdout} = await execFile(
     'node',
-    [
-      '--experimental-top-level-await',
-      '--experimental-loader=./src/loader.js',
-      'test/fixtures/tsmodule2.ts',
-    ],
+    ['--experimental-loader=./src/loader.js', 'test/fixtures/tsmodule2.ts'],
     {
       env: {
         ...process.env,

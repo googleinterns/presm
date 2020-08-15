@@ -1,5 +1,5 @@
 import ts from 'typescript';
-
+import {isBareSpecifier} from '../../src/utils.js';
 export const sourceExtensionTypes = ['.ts', '.tsx'];
 
 export const outputExtensionTypes = ['.mjs', '.cjs'];
@@ -10,6 +10,9 @@ export function getPreProcessor(configOptions = {}) {
       // Return new, resolved specifier using ts-specific
       // logic if one exists; undefined otherwise
       function getNewSpecifier(oldSpecifier) {
+        if (isBareSpecifier(oldSpecifier)) {
+          return oldSpecifier;
+        }
         const moduleResolutionHost = {
           fileExists: fileName => {
             return ts.sys.fileExists(fileName);

@@ -7,7 +7,7 @@ import ts from 'typescript';
 import {cleanSnapshot} from '../test-utils.js';
 
 import {Core} from '../../src/core.js';
-
+import {generateOutputFileList, generateBundleObj} from '../../src/build.js';
 cleanSnapshot();
 
 tap.test('TS Unit Tests', async t => {
@@ -74,15 +74,12 @@ tap.test('TS Unit Tests', async t => {
   // Simple transpilation
   let coreObj = new Core('./test/fixtures/loaderconfig2.json');
 
-  const {generateOutputFileList, generateBundleOutputObj} = await import(
-    '../../src/build.js'
-  );
   let buildMap = await generateOutputFileList(coreObj);
 
-  let bundleOutputObj = await generateBundleOutputObj(buildMap, coreObj);
+  let {generatedOutput} = await generateBundleObj(buildMap, coreObj);
 
   matchSnapshotFileName(
-    bundleOutputObj,
+    generatedOutput,
     '[TS Build - Basic] Correct output tree file names'
   );
 
@@ -96,10 +93,10 @@ tap.test('TS Unit Tests', async t => {
 
   buildMap = await generateOutputFileList(coreObj);
 
-  bundleOutputObj = await generateBundleOutputObj(buildMap, coreObj);
+  ({generatedOutput} = await generateBundleObj(buildMap, coreObj));
 
   matchSnapshotFileName(
-    bundleOutputObj,
+    generatedOutput,
     '[TS Build - Bare Imports] Correct output tree file names'
   );
 
@@ -113,10 +110,10 @@ tap.test('TS Unit Tests', async t => {
 
   buildMap = await generateOutputFileList(coreObj);
 
-  bundleOutputObj = await generateBundleOutputObj(buildMap, coreObj);
+  ({generatedOutput} = await generateBundleObj(buildMap, coreObj));
 
   matchSnapshotFileName(
-    bundleOutputObj,
+    generatedOutput,
     '[TS Build - Relative Imports] Correct output tree file names'
   );
 

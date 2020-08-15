@@ -1,7 +1,3 @@
-import url from 'url';
-
-import fs from 'fs';
-
 export function moduleWrapper(source) {
   return `export default ${source}`;
 }
@@ -14,12 +10,14 @@ export function isWrappedModule(extensions) {
   }
 }
 
-export async function pathToRawSource(absPath) {
-  const fileURL = url.pathToFileURL(absPath);
-  return fs.promises.readFile(new URL(fileURL), 'utf8');
-}
-
-export function getSourceFromPathSync(absPath) {
-  const fileURL = url.pathToFileURL(absPath);
-  return fs.readFileSync(new URL(fileURL), 'utf8');
+// Definition of bare specifiers according to:
+//  https://nodejs.org/api/esm.html#esm_terminology
+// NOTE: future implementation will follow:
+// https://html.spec.whatwg.org/multipage/webappapis.html#resolve-a-module-specifier
+export function isBareSpecifier(specifier) {
+  if (specifier.startsWith('.') || specifier.startsWith('/')) {
+    return false;
+  } else {
+    return true;
+  }
 }
