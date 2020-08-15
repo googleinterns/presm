@@ -222,8 +222,11 @@ export async function writeBundleFiles(bundle, outputOptions) {
  * @param {string} entryFileRelativePath path of file PRESM should process and write to disk
  * @returns {boolean} boolean based on sucessfully writing files
  */
-export async function build(entryFileRelativePath) {
+export async function build(entryFileRelativePath, outputDir) {
   const coreInstance = new Core();
+  if (outputDir) {
+    coreInstance.config.outputDir = outputDir;
+  }
   const outputFileList = await generateOutputFileList(
     coreInstance,
     entryFileRelativePath

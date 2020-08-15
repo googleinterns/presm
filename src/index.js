@@ -17,12 +17,18 @@ const {argv} = loadViaRequire('yargs')
     describe: 'File to build',
     type: 'string',
     demandOption: false,
+  })
+  .option('o', {
+    alias: 'output',
+    describe: 'Directory to output; overwrites loaderconfig',
+    type: 'string',
+    demandOption: false,
   });
 
 async function main() {
   if (argv.build) {
     const {build} = await import('./build.js');
-    await build(argv.file);
+    await build(argv.file, argv.output);
   }
 }
 
