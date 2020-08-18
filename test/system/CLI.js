@@ -33,7 +33,7 @@ tap.test('CLI Tests', async t => {
   t.test('[Build] - Incorrect Usage', async t => {
     const {stdout, stderr} = await execFile(
       'node',
-      ['.', '--build', '--file', './test/fixtures/calc/calc_runner.ts'],
+      ['./src/index.js', '--file', './test/fixtures/calc/calc_runner.ts'],
       {
         env: {
           ...process.env,
@@ -52,7 +52,7 @@ tap.test('CLI Tests', async t => {
 
       let {stdout, stderr} = await execFile(
         'node',
-        ['.', '--build', '--output', dir],
+        ['./src/index.js', '--output', dir],
         {
           env: {
             ...process.env,

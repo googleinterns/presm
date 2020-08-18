@@ -1,3 +1,6 @@
+#!/usr/bin/env node
+/* eslint-disable node/shebang */
+
 import {isWrappedModule} from './utils.js';
 
 import {Core} from './core.js';
