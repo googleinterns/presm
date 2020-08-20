@@ -9,10 +9,6 @@
   ],
   "preProcessors": [
     {
-      "name": "../examples/loaders/preprocessor-yaml.js",
-      "options": {}
-    },
-    {
       "name": "../examples/loaders/preprocessor-typescript.js",
       "options": {
         "compilerOptions": {

@@ -6,14 +6,6 @@
  */
 'use strict'
 exports[`test/system/yaml.js TAP YAML System Tests > must match snapshot 1`] = `
-### Resolving resource in basic resourceProvider for file:///{fs}/presm/test/fixtures/yamlTest.js
-
-### Getting resource in basic resourceProvider for file:///{fs}/presm/test/fixtures/yamlTest.js
-
-### Resolving resource in basic resourceProvider for ./yamlExample.yaml
-
-### Getting resource in basic resourceProvider for file:///{fs}/presm/test/fixtures/yamlExample.yaml
-
 This is my YAML file import
 { Employees: [ { 'John Doe': [Object] }, { 'Jane Doe': [Object] } ] }
 This line was added by a post processor!!

@@ -3,14 +3,11 @@ const loadViaRequire = createRequire(import.meta.url);
 
 const test = loadViaRequire('tape');
 
-import {calc} from '../examples/calc/calc';
+import {calc} from '../calc/calc';
 
 const {argv} = loadViaRequire('yargs').config({});
 
-import {
-  modifyTestArgv,
-  createCorrectOutput,
-} from '../examples/calc/test_functions';
+import {modifyTestArgv, createCorrectOutput} from '../calc/test_functions';
 
 // Imports for tests
 import testYAMLFile1 from './fixtures/yamlExample.yaml';
@@ -33,10 +30,10 @@ test('YAML Loader: Import YAML File', async (t: any) => {
 test('Import resolution tests', async (t: any) => {
   t.plan(2);
 
-  const {placeholder} = await import('./fixtures/tsmodule1');
+  const {placeholder} = await import('../tsmodule1');
   t.equal(placeholder, 42);
 
-  const {placeholder2} = await import('./fixtures/tsmodule1.js');
+  const {placeholder2} = await import('../tsmodule1.js');
   t.equal(placeholder2, 42);
 });
 

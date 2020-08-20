@@ -6,6 +6,7 @@ import {rollup} from 'rollup';
 import {getSource} from './loader.js';
 
 import {Core} from './core.js';
+import {throws} from 'assert';
 
 /**
  * Generates an object of input options for Rollup
@@ -35,13 +36,26 @@ export function getRollupInputOptions(outputFileList) {
       if (sourceIdx !== -1) {
         // Return source from outputFileList
         return outputFileList[sourceIdx][1];
+      } // Building files that import anything other than bare specifiers is not supported in PRESM
+      // Instead this use case should build using a directory, not a file
+      else if (id.endsWith('.ts')) {
+        process.on('exit', () => {
+          console.log(
+            `Must use --dir flag to build files like ${id} (i.e. files that import non-bare specifiers).\
+            See documentation for more info.`
+          );
+        });
+        // eslint-disable-next-line no-process-exit
+        process.exit();
+      } else {
+        return null;
       }
-      return null;
     },
   };
 
   const inputOptions = {
     input: filePaths,
+    external: ['module'],
     plugins: [pluginPRESM],
   };
   return inputOptions;
@@ -208,8 +222,11 @@ export async function writeBundleFiles(bundle, outputOptions) {
  * @param {string} entryFileRelativePath path of file PRESM should process and write to disk
  * @returns {boolean} boolean based on sucessfully writing files
  */
-export async function build(entryFileRelativePath) {
+export async function build(entryFileRelativePath, outputDir) {
   const coreInstance = new Core();
+  if (outputDir) {
+    coreInstance.config.outputDir = outputDir;
+  }
   const outputFileList = await generateOutputFileList(
     coreInstance,
     entryFileRelativePath
