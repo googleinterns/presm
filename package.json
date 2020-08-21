@@ -1,6 +1,6 @@
 {
   "name": "presm",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Pre-processing for ES modules in node",
   "devDependencies": {
     "@types/node": "^14.0.12",
@@ -23,8 +23,7 @@
   },
   "main": "./src/loader.js",
   "bin": {
-    "presm": "./src/loader.js",
-    "presmbuilder": "./src/index.js"
+    "presmbuild": "./src/index.js"
   },
   "scripts": {
     "lint": "eslint . --ext .mjs --ext .ts --ext .js",
