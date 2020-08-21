@@ -1,5 +1,5 @@
 {
-  "inputDir": "test/fixtures/calc/",
+  "inputDir": "src",
   "outputDir": "dist",
   "resourceProviders": [
     {

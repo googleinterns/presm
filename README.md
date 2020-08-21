@@ -4,7 +4,10 @@
 
 ## Overview
 
-Presm is a tool that allows developers to easily create, use, and organize loaders to use in their ES Module projects with `Node`.
+#### A tool for _pre_ processing _ESMs_
+
+
+Presm is a tool that allows developers to easily create, use, and organize loaders to use in their ES Module projects with `node`.
 
 Example use-case:
 You're working in `typescript` and want a quick way to transpile and run this code.  Having a `typescript` loader configured, you can use this:
@@ -13,9 +16,9 @@ node --loader=presm foo.ts
 ```
 Then you'd like to run this code without relying on these loaders for transpilation before execution:
 ```js
-presmbuilder --output dist
+presmbuild --output dist
 ```
-Now you can run this using just `Node`:
+Now you can run this using just `node`:
 ```js
 node dist/foo.js
 ```
@@ -24,13 +27,13 @@ node dist/foo.js
 
 ### Usage Modes
 
-PRESM has two usage modes, `[on-the-fly]` and `[build]`, they can be executed after sucessfully [installing](#Intstallation) PRESM in a project. 
+PRESM has two usage modes, `[on-the-fly]` and `[build]`, they can be executed after sucessfully [installing](#Installation) PRESM in a project. 
 
 ### `[on-the-fly]` mode
 
 In `[on-the-fly]` mode PRESM does not write to disk, it simply applies all the loaders specified in your `loaderconfig.json` and executes the resulting code.  
 
-In this mode, PRESM exists as a loader that you use `Node` to call:
+In this mode, PRESM exists as a loader that you use `node` to call:
 
 ```js
 node --loader=presm foo.ts
@@ -38,9 +41,9 @@ node --loader=presm foo.ts
 
 ### `[build]` mode
 
-In `[build]` mode PRESM first applies to loaders specified in your `loaderconfig.json`, then writes the output files to the folder specified in `outputDir` in the `loaderconfig.json`. After this mode executes, you should be able to execute these files using just `Node`.
+In `[build]` mode PRESM first applies to loaders specified in your `loaderconfig.json`, then writes the output files to the folder specified in `outputDir` in the `loaderconfig.json`. After this mode executes, you should be able to execute these files using just `node`.
 
-In this mode, PRESM exists as a CLI tool, `presmbuilder`; it has the following options:
+In this mode, PRESM exists as a CLI tool, `presmbuild`; it has the following options:
 ```shell
 Options:
   --help        Show help                         [boolean]
@@ -108,16 +111,10 @@ This file should exist in your projects root directory.  Below is a sample of th
 - All `type` and `name` files are file locations relative to the `presm` project root directory
 - If no `loaderconfig.json` exists in your proejcts root directory, `presm` will default to the `loaderconfig.json` in its `presm`'s directory
 
-## Intstallation Guide
+## Installation Guide
 
-As of yet, `presm` must be cloned locally for use:
-
-- Clone [the repo](https://github.com/googleinterns/presm/)
-- Install dependencies: `npm install`
-- Link CLI commands: `npm link`
-
-Then, in the main directory of a project you would like to use `presm` with, you must symlink `presm`'s CLI commands:
-`npm link presm`
+- `npm install --save-dev googleinterns/presm`
+- Now you can use the `presmbuild` CLI command and the `presm` loader (`node --loader=presm`)
 
 ## Loader Creation
 
