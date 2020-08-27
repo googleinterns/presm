@@ -1,10 +1,15 @@
 import {opsList, opsSymbolsList} from './ops';
+import {evalExpression} from './expression';
 
 interface Argv {
   [x: string]: string[];
 }
 
 export function calc(argv: Argv): string {
+  if (argv.expression) {
+    return evalExpression(argv.expression.join(' '));
+  }
+
   let chosenOpString = '';
   let chosenOpSymbol = '';
 

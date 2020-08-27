@@ -2,6 +2,8 @@ import {createRequire} from 'module';
 const loadViaRequire = createRequire(import.meta.url);
 
 const {argv} = loadViaRequire('yargs')
+  .alias('e', 'expression')
+  .array('e')
   .alias('a', 'add')
   .array('a')
   .alias('s', 'sub')
